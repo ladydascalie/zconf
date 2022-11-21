@@ -1,0 +1,64 @@
+# Use custom format
+format = """
+[╭─────](bold red) $git_branch $git_status $git_state $fill $aws
+[│](bold red) $sudo$status$directory$golang$fill$kubernetes
+[╰](bold red) $character """
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Disable the newline at the start of the prompt.
+add_newline = false
+
+[character]
+success_symbol = "[I](bold bg:white fg:black)"
+error_symbol = "[I](bold bg:red fg:black)"
+vimcmd_symbol = "[V](bold bg:#019833 fg:white)"
+
+[fill]
+symbol=" "
+
+[aws]
+format='[$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
+
+[git_branch]
+symbol=" "
+format="[$symbol$branch(:$remote_branch)]($style)"
+
+[sudo]
+disabled=false
+format="[$symbol]($style) "
+symbol="🔮" 
+
+# Will show only when commands fail.
+[status]
+map_symbol = true
+disabled = false
+format = "[$symbol $status]($style) "
+
+
+[battery]
+disabled = false
+format = "[$symbol $percentage]($style) "
+full_symbol = "🔋"
+charging_symbol = "⚡️"
+discharging_symbol = "💀"
+
+[[battery.display]]
+threshold = 100
+style = "bold red"
+
+[golang]
+format = "[$symbol ($version)](bold blue)"
+symbol = ""
+
+[directory]
+truncation_length = 2
+style = "bold white"
+
+[kubernetes]
+symbol = "☸"
+format = '[$symbol $context@$namespace ](bold purple)'
+disabled = false
+
+[kubernetes.context_aliases]
