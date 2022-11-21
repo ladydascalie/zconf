@@ -1,5 +1,6 @@
 # check required tools are installed
 local required=(
+	go
 	exa
 	starship
 	git
