@@ -1,4 +1,15 @@
-export AWS_PROFILE=admin@lootlocker-dev
+local dir=$(dirname $0)
+local template=$dir/env.tpl
+local destination_file=$dir/env.zsh
+
+# check file exists
+if [ -f $destination_file ]; then
+	# all good, do nothing.
+	_dbg "module(aws) ~> $destination_file already exists, nothing to do."
+else
+	op inject -i $template -o $destination_file
+	_dbg "module(aws) ~> injecting $template to $destination_file using 1password cli"
+fi
 
 function setup_eks_profile() {
 	for tool in kubectl aws jq; do

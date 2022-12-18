@@ -7,8 +7,8 @@ if warn_is_installed git; then
 fi
 
 local dir=$(dirname $0)
-export GIT_CONFIG_GLOBAL=$dir/gitconfig
-export GIT_CONFIG_SYMLINK=$HOME/.gitconfig
+local GIT_CONFIG_TEMPLATE=$dir/gitconfig
+local GIT_CONFIG_SYMLINK=$HOME/.gitconfig
 
 # check file exists
 if [ -f $GIT_CONFIG_SYMLINK ]; then
@@ -16,6 +16,6 @@ if [ -f $GIT_CONFIG_SYMLINK ]; then
         _dbg "module(git) ~> $GIT_CONFIG_SYMLINK already exists, nothing to do."
 else
         # keep a symlink since sublime merge doesn't read this variable.
-        _dbg "module(git) ~> symlinking $GIT_CONFIG_GLOBAL to $GIT_CONFIG_SYMLINK"
-        ln -s $GIT_CONFIG_GLOBAL $GIT_CONFIG_SYMLINK
+        _dbg "module(git) ~> injecting $GIT_CONFIG_TEMPLATE to $GIT_CONFIG_SYMLINK using 1password cli"
+        op inject -i $GIT_CONFIG_TEMPLATE -o $GIT_CONFIG_SYMLINK
 fi

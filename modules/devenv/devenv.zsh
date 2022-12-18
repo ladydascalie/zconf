@@ -1,3 +1,6 @@
+local dir="$HOME/Lootlocker/dev.env"
+local fed="$HOME/Lootlocker/ll-frontend"
+
 function devenv() {
 	SESSION="$USER"
 
@@ -12,12 +15,12 @@ function devenv() {
 
 	# top row
 	tmux select-pane -t 0
-	tmux send-keys 'cd ~/Code/Lootlocker/dev.env' C-m
+	tmux send-keys 'cd $dir' C-m
 	tmux send-keys 'docker compose up -d' C-m
 	tmux send-keys 'clear' C-m
 
 	tmux select-pane -t 1
-	tmux send-keys 'cd ~/Code/Lootlocker/go-backend' C-m
+	tmux send-keys 'cd $dir' C-m
 	echo "Waiting until mysql comes online"
 
 	tries=0
@@ -33,7 +36,7 @@ function devenv() {
 	tmux send-keys "mage -v dev:run" C-m
 
 	tmux select-pane -t 2
-	tmux send-keys 'cd ~/Code/Lootlocker/ll-frontend' C-m
+	tmux send-keys 'cd $fed' C-m
 	tmux send-keys 'npm run dev:local' C-m
 
 	tmux select-pane -t 0

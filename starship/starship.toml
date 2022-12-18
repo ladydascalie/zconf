@@ -2,7 +2,7 @@
 format = """
 [╭─────](bold red) $git_branch $git_status $git_state $fill $aws
 [│](bold red) $sudo$status$directory$golang$fill$kubernetes
-[╰](bold red) $character """
+[╰](bold red)$character """
 
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10

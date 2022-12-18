@@ -1,10 +1,10 @@
 [user]
         name = Benjamin Cable
-        email = cable.benjamin@protonmail.com
-        signingKey = 09EF5B7607F9AC85B605AFAD347496D6622ACD06
+        email = op://Personal/Benjamin Cable/Internet Details/email
+        signingKey = op://Keychain/GPG Master Key/add more/Signing Key
 [core]
         editor = vim
-        excludesfile = /home/b/.gitignore
+        excludesfile = ~/.gitignore
 [commit]
         gpgSign = true
 [credential "https://github.com"]
@@ -24,3 +24,5 @@
 	autoSetupRemote = true
 [pull]
 	rebase = true
+[credential]
+	helper = cache --timeout=86400
