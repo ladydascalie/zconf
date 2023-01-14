@@ -101,17 +101,28 @@ function d4r() {
 
 # Usage: docker-cleanup
 # Description: Delete docker containers, images, volumes and networks
-function docker-cleanup {
+function docker-cleanup {      
+        while getopts "fa:" opt; do
+               case $opt in
+                       f) FORCE=1 ;;
+                       a) NUMBER=$OPTARG ;;
+                       \?) echo "Invalid option: -$OPTARG" >&2 ;;
+               esac
+        done
+
         # check if any containers are running
         if [[ $(docker ps -a -q) ]]; then
-                # ask for confirmation
-                echo -n -e "\e[1;31mAre you sure you want to remove all containers? [y/N]: \e[0m"
-                read confirm
+                # ask for comfirmation if we're not forcing
+                if [[ $FORCE -ne 1 ]]; then
+                        # ask for confirmation
+                        echo -n -e "\e[1;31mAre you sure you want to remove all containers? [y/N]: \e[0m"
+                        read confirm
 
-                # check user input
-                if [[ $confirm != "y" && $confirm != "Y" ]]; then
-                        echo "Aborting..."
-                        return
+                        # check user input
+                        if [[ $confirm != "y" && $confirm != "Y" ]]; then
+                                echo "Aborting..."
+                                return
+                        fi
                 fi
 
                 # warn user we're removing all containers
@@ -130,20 +141,25 @@ function docker-cleanup {
                 echo ""
         fi
 
-        # print list of options
-        echo "1) Delete all containers"
-        echo "2) Delete all images"
-        echo "3) Delete all volumes"
-        echo "4) Delete all networks"
-        echo "5) Delete all containers, volumes and networks (keep images)"
-        echo "6) Delete all containers, volumes and networks (keep images) (force)"
-        echo "7) Delete everything"
-        echo "8) Delete everything (force)"
+        # set value of choice to number if it's set
+        if [[ $NUMBER -ne 0 ]]; then
+                choice=$NUMBER
+        else
+                # print list of options
+                echo "1) Delete all containers"
+                echo "2) Delete all images"
+                echo "3) Delete all volumes"
+                echo "4) Delete all networks"
+                echo "5) Delete all containers, volumes and networks (keep images)"
+                echo "6) Delete all containers, volumes and networks (keep images) (force)"
+                echo "7) Delete everything"
+                echo "8) Delete everything (force)"
 
-        # print a prompt in
-        echo -n -e "\e[1;32mEnter your choice: \e[0m"
-        # read user input
-        read choice
+                # print a prompt in
+                echo -n -e "\e[1;32mEnter your choice: \e[0m"
+                # read user input
+                read choice
+        fi
 
         # check user input
         case $choice in
