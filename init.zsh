@@ -2,7 +2,7 @@
 # export VERBOSE_STARTUP
 
 # pick an editor, we both know it's gotta be vim.
-export EDITOR=nvim
+export EDITOR=vim
 
 local root_dir=$(dirname $0)
 local preload=$root_dir/preload/_init.zsh

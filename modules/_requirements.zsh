@@ -6,7 +6,6 @@ local required=(
 	git
 	pass
 	docker
-	docker-compose
 )
 
 for r in $required; do
