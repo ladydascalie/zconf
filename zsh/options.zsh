@@ -7,6 +7,7 @@ export ZSH_CACHE_DIR=$HOME/.zshcache
 
 # zsh options
 zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}'
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt CHASE_DOTS
 setopt AUTO_CD
@@ -29,5 +30,6 @@ custom-backward-delete-word() {
     local WORDCHARS=${WORDCHARS/\//}
     zle backward-delete-word
 }
-zle -N custom-backward-delete-word 
-bindkey '^W' custom-backward-delete-word 
+zle -N custom-backward-delete-word
+bindkey '^W' custom-backward-delete-word
+
