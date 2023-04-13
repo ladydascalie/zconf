@@ -19,7 +19,8 @@ vimcmd_symbol = "[V](bold bg:#019833 fg:white)"
 symbol=" "
 
 [aws]
-format='[$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
+format='[$symbol $profile \($region\) $duration]($style)'
+force_display=true
 
 [git_branch]
 symbol=" "
@@ -58,7 +59,7 @@ style = "bold white"
 
 [kubernetes]
 symbol = "☸"
-format = '[$symbol $context@$namespace ](bold purple)'
+format = '[$symbol $context@$namespace](bold purple)'
 disabled = false
 
 [kubernetes.context_aliases]
