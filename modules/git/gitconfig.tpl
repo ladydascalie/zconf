@@ -14,17 +14,20 @@
         helper = 
         helper = !/usr/bin/gh auth git-credential
 [init]
-	defaultBranch = main
+        defaultBranch = main
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
 [push]
-	autoSetupRemote = true
+        autoSetupRemote = true
 [pull]
-	rebase = true
+        rebase = true
 [credential]
-	helper = cache --timeout=86400
+        helper = cache --timeout=86400
 [diff]
         tool = smerge
+[rerere]
+        enabled = true
+

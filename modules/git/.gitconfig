@@ -1,0 +1,33 @@
+[user]
+        name = Benjamin Cable
+        email = cable.benjamin@protonmail.com
+        signingKey = 09EF5B7607F9AC85B605AFAD347496D6622ACD06
+[core]
+        editor = vim
+        excludesfile = ~/.gitignore
+[commit]
+        gpgSign = true
+[credential "https://github.com"]
+        helper = 
+        helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+        helper = 
+        helper = !/usr/bin/gh auth git-credential
+[init]
+        defaultBranch = main
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
+[push]
+        autoSetupRemote = true
+[pull]
+        rebase = true
+[credential]
+        helper = cache --timeout=86400
+[diff]
+        tool = smerge
+[rerere]
+        enabled = true
+
