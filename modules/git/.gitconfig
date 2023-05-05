@@ -30,4 +30,3 @@
         tool = smerge
 [rerere]
         enabled = true
-

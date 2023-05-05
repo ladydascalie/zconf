@@ -23,8 +23,9 @@ format='[$symbol $profile \($region\) $duration]($style)'
 force_display=true
 
 [git_branch]
-symbol=" "
-format="[$symbol$branch(:$remote_branch)]($style)"
+symbol="🔀"
+format="[$symbol $branch(:$remote_branch)]($style)"
+
 
 [sudo]
 disabled=false
@@ -51,14 +52,14 @@ style = "bold red"
 
 [golang]
 format = "[$symbol ($version)](bold blue)"
-symbol = ""
+symbol = "🪬"
 
 [directory]
 truncation_length = 2
 style = "bold white"
 
 [kubernetes]
-symbol = "☸"
+symbol = "🎡"
 format = '[$symbol $context@$namespace](bold purple)'
 disabled = false
 
