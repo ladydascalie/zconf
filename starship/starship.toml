@@ -1,8 +1,11 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
 # Use custom format
 format = """
-[╭─────](bold red) $git_branch $git_status $git_state $fill $aws
-[│](bold red) $sudo$status$directory$golang$fill$kubernetes
-[╰](bold red)$character """
+[╭─────](bold red) $git_branch$git_status$git_state$fill$aws
+[│](bold red)$sudo$status$directory$golang$fill$kubernetes
+[╰](bold red)$character"""
 
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
@@ -16,21 +19,21 @@ error_symbol = "[I](bold bg:red fg:black)"
 vimcmd_symbol = "[V](bold bg:#019833 fg:white)"
 
 [fill]
-symbol=" "
+symbol = " "
 
 [aws]
-format='[$symbol $profile \($region\) $duration]($style)'
-force_display=true
+symbol = "📦"
+format = '[$symbol$profile \($region\)]($style)'
+force_display = true
 
 [git_branch]
-symbol="🔀"
-format="[$symbol $branch(:$remote_branch)]($style)"
-
+symbol = "🔀"
+format = "[$symbol $branch(:$remote_branch)]($style)"
 
 [sudo]
-disabled=false
-format="[$symbol]($style) "
-symbol="🔮" 
+disabled = false
+format = "[$symbol]($style) "
+symbol = "🔮"
 
 # Will show only when commands fail.
 [status]
@@ -60,7 +63,5 @@ style = "bold white"
 
 [kubernetes]
 symbol = "🎡"
-format = '[$symbol $context@$namespace](bold purple)'
+format = '[$symbol$context@$namespace](bold purple)'
 disabled = false
-
-[kubernetes.context_aliases]
