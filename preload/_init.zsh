@@ -1,6 +1,6 @@
 _dbg() { if (( ${+VERBOSE_STARTUP} )); then echo $@; fi } # conditional debug print
 _locate() { find "$0" -type f ! -wholename "$0" } 	  # locate files in modules.
-_load() { [ -f $1 ] && source $1 }		          # source a file.
+_load() { [ -f "$1" ] && source "$1" }		          # source a file.
 _is_zsh_file() { [ "${1##*.}" = "zsh" ] }		  # check if file is a zsh file.
 
 # check program is installed

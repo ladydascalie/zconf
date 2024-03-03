@@ -4,7 +4,7 @@
 # pick an editor, we both know it's gotta be vim.
 export EDITOR=vim
 
-local root_dir=$(dirname $0)
+local root_dir=$(dirname "$0")
 local preload=$root_dir/preload/_init.zsh
 local configurations=(
 	# shell configuration
@@ -21,6 +21,6 @@ local configurations=(
 # Ensure requisite functions are preloaded.
 source $preload
 
-for f in $configurations; do
-	_load $root_dir/$f
+for f in "${configurations[@]}"; do
+	_load "${root_dir}/${f}"
 done
