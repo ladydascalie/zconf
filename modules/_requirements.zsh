@@ -6,6 +6,7 @@ local required=(
 	git
 	pass
 	docker
+	op
 )
 
 for r in $required; do
