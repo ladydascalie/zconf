@@ -63,5 +63,11 @@ style = "bold white"
 
 [kubernetes]
 symbol = "🎡"
-format = '[$symbol$context@$namespace](bold purple)'
+format = '[$symbol$context@$namespace]($style)'
+style = 'purple bold'
 disabled = false
+contexts = [
+	{ context_pattern = 'admin@live.eu-west-1', context_alias = 'admin@live.eu-west-1', style = "red blink bold underline", symbol = "🔥🔥🔥 "},
+	{ context_pattern = 'admin@dev.eu-central-1', style = "green bold"}
+]
+

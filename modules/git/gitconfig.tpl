@@ -1,20 +1,15 @@
 [user]
         name = Benjamin Cable
-        email = op://Personal/Benjamin Cable/Internet Details/email
-        signingKey = op://Keychain/GPG Master Key/add more/Signing Key
+        email = cable.benjamin@protonmail.com
+	signingkey = {{op://Personal/personal/public key }}
 [core]
         editor = vim
         excludesfile = ~/.gitignore
-[commit]
-        gpgSign = true
-[credential "https://github.com"]
-        helper = 
-        helper = !/usr/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-        helper = 
-        helper = !/usr/bin/gh auth git-credential
+	fsmonitor = true
 [init]
         defaultBranch = main
+[commit]
+        gpgSign = true
 [filter "lfs"]
         clean = git-lfs clean -- %f
         smudge = git-lfs smudge -- %f
@@ -24,10 +19,17 @@
         autoSetupRemote = true
 [pull]
         rebase = true
-[credential]
-        helper = cache --timeout=86400
+[rebase]
+	autoStash = true
 [diff]
         tool = smerge
+	algorithm = histogram
 [rerere]
         enabled = true
-
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/opt/1Password/op-ssh-sign"
+	allowedSignersFile = ~/.ssh/allowed_signers
+[credential]
+        helper = cache --timeout=86400
