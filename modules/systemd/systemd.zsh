@@ -10,7 +10,7 @@ for f in $config_files; do
 		continue
 	else
 		# symlink it to the destination
-		_dbg "linking $f ~> $config_dir/$filename"
+		_dbg "module(systemd) linking $f ~> $config_dir/$filename"
 		ln -s $f $config_dir/$filename
 	fi
 done

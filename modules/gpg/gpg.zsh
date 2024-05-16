@@ -20,6 +20,6 @@ for OPTION in "${OPTIONS[@]}"; do
         echo "Appending '${OPTION}' to ${GPG_AGENT_CONF} ..."
         echo "${OPTION}" >> "${GPG_AGENT_CONF}"
     else
-        _dbg "The '${OPTION}' option is already present in ${GPG_AGENT_CONF}."
+        _dbg "module(gpg) the '${OPTION}' option is already present in ${GPG_AGENT_CONF}."
     fi
 done
