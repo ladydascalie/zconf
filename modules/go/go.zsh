@@ -2,7 +2,7 @@
 export GOPATH=$HOME/go
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$GOPATH/bin
-export GOPRIVATE=github.com/go-flexible/*
+export GOPRIVATE=github.com/go-flexible/*,github.com/lootlocker/*
 
 # mage
 export MAGEFILE_ENABLE_COLOR=1
