@@ -3,9 +3,10 @@
 
 # Use custom format
 format = """
-[╭─────](bold red) $git_branch$git_status$git_state$fill$aws
+[╭─────](bold red)$git_branch$git_status$git_state$fill$aws
 [│](bold red)$sudo$status$directory$golang$fill$kubernetes
 [╰](bold red)$character"""
+
 
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
@@ -14,16 +15,16 @@ scan_timeout = 10
 add_newline = false
 
 [character]
-success_symbol = "[I](bold bg:white fg:black)"
-error_symbol = "[I](bold bg:red fg:black)"
+success_symbol = "[I](bold bg:bright-white fg:#019833)"
+error_symbol = "[I](bold bg:black fg:red)"
 vimcmd_symbol = "[V](bold bg:#019833 fg:white)"
 
 [fill]
 symbol = " "
 
 [aws]
-symbol = "📦"
-format = '[$symbol$profile \($region\)]($style)'
+symbol = "🧩"
+format = '[$symbol $profile \($region\)]($style)'
 force_display = true
 
 [git_branch]
@@ -41,33 +42,21 @@ map_symbol = true
 disabled = false
 format = "[$symbol $status]($style) "
 
-
-[battery]
-disabled = false
-format = "[$symbol $percentage]($style) "
-full_symbol = "🔋"
-charging_symbol = "⚡️"
-discharging_symbol = "💀"
-
-[[battery.display]]
-threshold = 100
-style = "bold red"
-
 [golang]
 format = "[$symbol ($version)](bold blue)"
 symbol = "🪬"
+# version_format = "v"
 
 [directory]
 truncation_length = 2
-style = "bold white"
+style = "bold fg:white"
 
 [kubernetes]
 symbol = "🎡"
-format = '[$symbol$context@$namespace]($style)'
+format = '[$symbol $context@$namespace]($style)'
 style = 'purple bold'
 disabled = false
 contexts = [
-	{ context_pattern = 'admin@live.eu-west-1', style = "red blink bold underline", symbol = "🔥🔥🔥 "},
-	{ context_pattern = 'admin@dev.eu-central-1', style = "green bold"}
+	{ context_pattern = 'live.eu-west-1', style = "red blink bold underline", symbol = "🔥🔥🔥 " },
+	{ context_pattern = 'dev.eu-central-1', style = "green bold" },
 ]
-
