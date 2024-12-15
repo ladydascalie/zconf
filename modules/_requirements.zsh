@@ -1,7 +1,6 @@
 # check required tools are installed
 local required=(
 	starship
-	go
 	eza
 	git
 	pass

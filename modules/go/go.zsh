@@ -4,6 +4,9 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$GOPATH/bin
 export GOPRIVATE=github.com/go-flexible/*,github.com/lootlocker/*
 
+# only check if go is installed once we have it in the path.
+warn_is_installed go
+
 # mage
 export MAGEFILE_ENABLE_COLOR=1
 export MAGEFILE_TARGET_COLOR=BrightCyan
