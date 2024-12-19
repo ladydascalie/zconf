@@ -1,3 +1,5 @@
-# NOTE: this is ALSO being done in the vi-mode module,
-# as it can overwrite certain commands that fzf uses.
-[[ -s "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+# NOTE: this is also done in vi_mode.zsh to alleviate compatibility issues.
+# This is as recommended by the vi-mode documentation.
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)

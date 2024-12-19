@@ -1,4 +1,4 @@
-# https://github.com/jeffreytse/zsh-vi-mode#execute-extra-commands
+# The plugin will auto execute this zvm_after_init function
 function zvm_after_init() {
-	[[ -s "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
+	source <(fzf --zsh)
 }
