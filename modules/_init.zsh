@@ -1,6 +1,6 @@
 local dir=$(dirname $0)
 local tools=(
-	$(find "$dir" -type f ! -wholename "$0")
+	$(find "$dir" -type f ! -wholename "$0" | sort
 )
 
 # load them all in.
