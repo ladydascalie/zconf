@@ -1,0 +1,6 @@
+[tools]
+gallery-dl = "latest"
+go = "1.24.5"
+golangci-lint = "latest"
+mage = "latest"
+node = "22"
