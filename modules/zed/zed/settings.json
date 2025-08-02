@@ -1,0 +1,72 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+        "project_panel": {
+                "dock": "right"
+        },
+        "agent": {
+                "default_model": {
+                        "provider": "copilot_chat",
+                        "model": "gpt-4o"
+                }
+        },
+        "icon_theme": "Catppuccin Frappé",
+        "ui_font_family": "MonoLisa Custom",
+        "buffer_font_family": "MonoLisa Custom",
+        "ui_font_size": 18,
+        "buffer_font_size": 18,
+        "tab_size": 8,
+        "theme": {
+                "mode": "system",
+                "light": "One Light",
+                "dark": "Ayu Mirage"
+        },
+        "vim_mode": true,
+        "lsp": {
+                "gopls": {
+                        "initialization_options": {
+                                "gofumpt": true,
+                                "buildFlags": ["-tags=mage,integration"],
+                                "hints": {
+                                        "assignVariableTypes": false,
+                                        "compositeLiteralFields": true,
+                                        "compositeLiteralTypes": true,
+                                        "constantValues": true,
+                                        "functionTypeParameters": true,
+                                        "parameterNames": true,
+                                        "rangeVariableTypes": true
+                                }
+                        }
+                }
+        },
+        "context_servers": {
+                "planetscale-context-server": {
+                        "source": "extension",
+                        "enabled": true,
+                        "settings": {
+                                "context_servers": {
+                                        "planetscale-context-server": {
+                                                "settings": {
+                                                        "organization": "lootlocker",
+                                                        "database": "game_backend"
+                                                }
+                                        }
+                                }
+                        }
+                }
+        },
+        "features": {
+                "edit_prediction_provider": "copilot"
+        },
+        "languages": {
+                "Go": {
+                        "formatter": "language_server"
+                }
+        }
+}
