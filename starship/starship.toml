@@ -3,7 +3,7 @@
 
 # Use custom format
 format = """
-[╭─────](bold red)$git_branch$git_status$git_state$fill$aws
+[╭─────](bold red)$git_branch$git_status$git_state$fill$mise$fill$aws
 [│](bold red)$sudo$status$directory$golang$fill$kubernetes
 [╰](bold red)$character"""
 
@@ -60,3 +60,7 @@ contexts = [
 	{ context_pattern = 'live.eu-west-1', style = "red blink bold underline", symbol = "🔥🔥🔥 " },
 	{ context_pattern = 'dev.eu-central-1', style = "green bold" },
 ]
+
+[mise]
+disabled = false
+
