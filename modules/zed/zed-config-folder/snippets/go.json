@@ -1,0 +1,176 @@
+{
+    "sql-escape": {
+        "prefix": "sqlesc",
+        "body": ["`+\"`$1`\"+`"],
+        "description": "SQL escape string"
+    },
+    "separated printer": {
+        "prefix": "sepprint",
+        "body": [
+            "sep := strings.Repeat(\"-\", 10)",
+            "fmt.Println(sep+\"\\n\", $1, \"\\n\"+sep)"
+        ]
+    },
+    "Get Monolith Database": {
+        "prefix": "getmonolithdb",
+        "body": ["db, cleanup := tests.GetMonolithDB(t)", "t.Cleanup(cleanup)"]
+    },
+    "error check": {
+        "prefix": "iferr",
+        "body": "if err != nil {\n\t${1:return ${2:nil, }${3:err}}\n}",
+        "description": "Snippet for if err != nil"
+    },
+    "trace": {
+        "prefix": "trace",
+        "body": [
+            "ctx, span := tracer.Start(${1:ctx})",
+            "defer span.End()\n${2}"
+        ],
+        "description": "Create a trace span"
+    },
+    "ttable": {
+        "prefix": "ttable",
+        "body": [
+            "testCases := []struct {",
+            "\tname          string",
+            "\texpectedError error",
+            "}{",
+            "\t{",
+            "\t\tname: \"happy path\",",
+            "\t},",
+            "}",
+            "for _, tc := range testCases {",
+            "\tt.Run(tc.name, func(t *testing.T) {",
+            "",
+            "\t\tif err == nil && tc.expectedError != nil {",
+            "\t\t\tt.Fatalf(\"expected an error, but did not get one: %s\", tc.expectedError)",
+            "\t\t}",
+            "\t\tif err != nil && tc.expectedError == nil {",
+            "\t\t\tt.Fatalf(\"unexpected error: %s\", err)",
+            "\t\t}",
+            "",
+            "\t\tif err != nil && tc.expectedError != nil {",
+            "\t\t\ttests.ExpectError(t, tc.expectedError, err)",
+            "\t\t\treturn",
+            "\t\t}",
+            "\t\tif err != nil {",
+            "\t\t\tt.Fatalf(\"unexpected error: %v\", err)",
+            "\t\t}",
+            "\t})",
+            "}"
+        ],
+        "description": "Test table"
+    },
+    "fiber_trace": {
+        "prefix": "ftrace",
+        "body": ["ctx, span := fiberTracer.Start(c)", "defer span.End()"]
+    },
+    "Rollback transaction": {
+        "description": "Rollback a transaction in a defer statement with error handling",
+        "prefix": "rollback",
+        "body": [
+            "defer func() {",
+            "\tif err := tx.Rollback(); err != nil {",
+            "\t\tif errors.Is(err, sql.ErrTxDone) {",
+            "\t\t\treturn",
+            "\t\t}",
+            "\t\tslog.ErrorContext(ctx, \"failed to rollback transaction\", \"err\", err)",
+            "\t}",
+            "}()"
+        ]
+    },
+    "Commit transaction": {
+        "description": "Commit a transaction with error handling",
+        "prefix": "commit",
+        "body": [
+            "if err := tx.Commit(); err != nil {",
+            "\treturn resp, database.NewQueryError(err, \"COMMIT\")",
+            "}"
+        ]
+    },
+    "Test Dump": {
+        "prefix": "ll",
+        "body": "t.Logf(\"${1:subject}: %#+v\\n\", ${2:value})"
+    },
+    "Dump": {
+        "prefix": "dd",
+        "body": "fmt.Printf(\"${1:subject}: %#+v\\n\", ${2:value})"
+    },
+    "HexDump": {
+        "prefix": "hdd",
+        "body": "fmt.Println(hex.Dump(${1:subject}))"
+    },
+    "JSONDump": {
+        "prefix": "jdd",
+        "body": [
+            "_${2:tmpName}, _ := json.MarshalIndent(${1:subject}, \"\", \"  \")",
+            "fmt.Println(string(_${2:tmpName}))"
+        ]
+    },
+    "Compare Errors": {
+        "prefix": "cmpdiff",
+        "body": [
+            "if diff := cmp.Diff(${1:want}, ${2:got}, ${3:options}); diff != \"\" {",
+            "\tt.Errorf(\"${4:target} mismatch (-want +got):\\n%s\", diff)",
+            "}"
+        ]
+    },
+    "Envconfig Struct Tags": {
+        "prefix": "envc",
+        "body": "`envconfig:\"${1:ENV_VAR}\" required:\"true\"`"
+    },
+    "JSON Struct Tags": {
+        "prefix": "json",
+        "body": "`json:\"${1:field_name}\"`"
+    },
+    "Error One-Liner": {
+        "prefix": "ie",
+        "body": [
+            "if err := ${1:expression}; err != nil {",
+            "  ${2:exit condition}",
+            "}"
+        ]
+    },
+    "Context Background": {
+        "prefix": "cb",
+        "body": ["context.Background()"]
+    },
+    "Context WithTimeout": {
+        "prefix": "ct",
+        "body": [
+            "ctx, cancel := context.WithTimeout(context.Background(), $0)",
+            "defer cancel()"
+        ]
+    },
+    "Context WithCancel": {
+        "prefix": "cc",
+        "body": [
+            "ctx, cancel := context.WithCancel(context.Background())",
+            "defer cancel()"
+        ]
+    },
+    "NewContext": {
+        "prefix": "nc",
+        "body": [
+            "// ${1:name}Key is a private context key.",
+            "type ${1:name}Key struct{}",
+            "",
+            "// New$3Context returns a new context with ${1:name}.",
+            "func New$3Context(ctx context.Context, v *${2:Type}) context.Context {",
+            "  return context.WithValue(ctx, ${1:name}Key{}, v)",
+            "}",
+            "",
+            "// $3FromContext returns ${1:name} from context.",
+            "func $3FromContext(ctx context.Context) (*${2:Type}, bool) {",
+            "  v, ok := ctx.Value(${1:name}Key{}).(*${2:Type})",
+            "  return v, ok",
+            "}"
+        ]
+    },
+    "Slice Remove": {
+        "prefix": "sr",
+        "body": [
+            "${1:slice} = append(${1:slice}[:${2:index}], ${1:slice}[${2:index}+1:]...)"
+        ]
+    }
+}

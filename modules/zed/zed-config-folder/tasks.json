@@ -1,0 +1,9 @@
+// Project tasks configuration. See https://zed.dev/docs/tasks for documentation.
+//
+// Example:
+[
+    {
+        "label": "Clean debugger bins",
+        "command": "rm __debug_bin*"
+    }
+]

@@ -1,0 +1,97 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    "edit_predictions": {
+        "mode": "eager",
+        "enabled_in_text_threads": false
+    },
+    "project_panel": { "dock": "right" },
+    "agent": {
+        "dock": "left",
+        "play_sound_when_agent_done": true,
+        "default_model": {
+            "provider": "copilot_chat",
+            "model": "gpt-5-mini"
+        }
+    },
+    "icon_theme": "Catppuccin Frappé",
+    "ui_font_family": "MonoLisa Custom",
+    "buffer_font_family": "MonoLisa Custom",
+    "terminal": {
+        "font_family": "MonoLisaCustom Nerd Font"
+    },
+    "ui_font_size": 18,
+    "buffer_font_size": 18,
+    "tab_size": 8,
+    "wrap_guides": [80, 120],
+    "minimap": { "show": "always" },
+    "theme": {
+        "mode": "dark",
+        "light": "One Light",
+        "dark": "Ayu Mirage"
+    },
+    "vim_mode": true,
+    "lsp": {
+        "gopls": {
+            "initialization_options": {
+                "build.buildFlags": ["-tags=mage,integration"],
+                "formatting.gofumpt": true,
+                "analyses": {
+                    "shadow": true,
+                    "unusedvariable": true,
+                    "useany": true,
+                    "modernize": true
+                },
+                "ui.codelenses": {
+                    "run_vulncheck_exp": true
+                },
+                "hints": {
+                    "assignVariableTypes": false,
+                    "compositeLiteralFields": true,
+                    "compositeLiteralTypes": true,
+                    "constantValues": true,
+                    "functionTypeParameters": true,
+                    "parameterNames": true,
+                    "rangeVariableTypes": true
+                }
+            }
+        }
+    },
+    "context_servers": {
+        "planetscale-context-server": {
+            "source": "extension",
+            "enabled": true,
+            "settings": {
+                "context_servers": {
+                    "planetscale-context-server": {
+                        "settings": {
+                            "organization": "lootlocker",
+                            "database": "game_backend"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "features": {
+        "edit_prediction_provider": "zed"
+    },
+    "languages": {
+        "Go": {
+            "formatter": "language_server",
+            "tab_size": 8
+        },
+        "YAML": {
+            "tab_size": 2
+        },
+        "JSONC": {
+            "tab_size": 4
+        }
+    }
+}
