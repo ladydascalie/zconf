@@ -5,5 +5,10 @@
     {
         "label": "Clean debugger bins",
         "command": "rm __debug_bin*"
+    },
+    {
+        "label": "Open in Sublime Merge",
+        "command": "smerge",
+        "reveal": "never"
     }
 ]
