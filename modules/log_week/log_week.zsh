@@ -7,7 +7,10 @@ log_week() {
     fi
 
     LOG_DIR="$HOME/Documents/WorkLogs"
-    LOG_FILE="$LOG_DIR/$LOG_DATE-worklog.md"
+    YEAR=$(date -d "$LOG_DATE" +%Y)
+    MONTH=$(date -d "$LOG_DATE" +%B | tr '[:upper:]' '[:lower:]')
+    WEEKNUM=$(date -d "$LOG_DATE" +%V)
+    LOG_FILE="$LOG_DIR/${YEAR}-${MONTH}-week-${WEEKNUM}.md"
 
     mkdir -p "$LOG_DIR"
 
