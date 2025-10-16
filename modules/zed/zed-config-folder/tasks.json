@@ -9,6 +9,6 @@
     {
         "label": "Open in Sublime Merge",
         "command": "smerge",
-        "reveal": "never"
+        "args": ["$ZED_WORKTREE_ROOT"]
     }
 ]

@@ -7,6 +7,15 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+    "git": {
+        "inline_blame": {
+            "show_commit_summary": false
+        }
+    },
+    "tabs": {
+        "git_status": true
+    },
+    "cursor_shape": "block",
     "edit_predictions": {
         "mode": "eager",
         "enabled_in_text_threads": false
@@ -16,14 +25,21 @@
         "dock": "left",
         "play_sound_when_agent_done": true,
         "default_model": {
-            "provider": "copilot_chat",
-            "model": "gpt-4.1"
+            "provider": "zed.dev",
+            "model": "claude-sonnet-4"
+        },
+        "commit_message_model": {
+            "model": "claude-sonnet-4",
+            "provider": "copilot_chat"
         }
     },
     "icon_theme": "Catppuccin Frappé",
     "ui_font_family": "MonoLisa Custom",
     "buffer_font_family": "MonoLisa Custom",
     "terminal": {
+        "toolbar": {
+            "breadcrumbs": false
+        },
         "font_family": "MonoLisaCustom Nerd Font"
     },
     "ui_font_size": 18,
@@ -34,10 +50,21 @@
     "theme": {
         "mode": "dark",
         "light": "One Light",
-        "dark": "Ayu Mirage"
+        "dark": "One Dark"
     },
     "vim_mode": true,
     "lsp": {
+        "golangci-lint": {
+            "initialization_options": {
+                "command": [
+                    "golangci-lint",
+                    "run",
+                    "--output.json.path",
+                    "stdout",
+                    "--show-stats=false"
+                ]
+            }
+        },
         "gopls": {
             "initialization_options": {
                 "build.buildFlags": ["-tags=mage,integration"],
