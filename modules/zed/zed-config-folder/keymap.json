@@ -6,33 +6,39 @@
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
 [
-  {
-    "context": "Workspace",
-    "bindings": {
-      // "shift shift": "file_finder::Toggle"
+    {
+        "context": "Workspace",
+        "bindings": {
+            // "shift shift": "file_finder::Toggle"
+        }
+    },
+    {
+        "context": "Editor && vim_mode == insert",
+        "bindings": {
+            // "j k": "vim::NormalBefore"
+        }
+    },
+    {
+        "context": "Editor && vim_mode != insert",
+        "bindings": {
+            "g i": "editor::GoToImplementation"
+        }
+    },
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-b": "workspace::ToggleRightDock"
+        }
+    },
+    {
+        "context": "Workspace",
+        "bindings": {
+            "ctrl-shift-b": "workspace::ToggleLeftDock"
+        }
+    },
+    {
+        "bindings": {
+            "shift-f6": "debugger::Restart"
+        }
     }
-  },
-  {
-    "context": "Editor && vim_mode == insert",
-    "bindings": {
-      // "j k": "vim::NormalBefore"
-    }
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
-      "ctrl-b": "workspace::ToggleRightDock"
-    }
-  },
-  {
-    "context": "Workspace",
-    "bindings": {
-      "ctrl-shift-b": "workspace::ToggleLeftDock"
-    }
-  },
-  {
-    "bindings": {
-      "shift-f6": "debugger::Restart"
-    }
-  }
 ]

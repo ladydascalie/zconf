@@ -4,7 +4,7 @@ local required=(
 	eza
 	git
 	pass
-	docker
+	podman
 	op
 )
 

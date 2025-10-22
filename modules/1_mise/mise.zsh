@@ -15,6 +15,8 @@ else
         ln -s $config_in_place $config_symlink
 fi
 
-
-eval "$($HOME/.local/bin/mise activate zsh)"
-
+if [[ -o login ]]; then
+        eval "$(~/.local/bin/mise activate zsh --shims)" # login mode
+else
+        eval "$(~/.local/bin/mise activate zsh)" # non-login mode
+fi

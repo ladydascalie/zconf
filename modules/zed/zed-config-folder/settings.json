@@ -15,7 +15,7 @@
     "tabs": {
         "git_status": true
     },
-    "cursor_shape": "block",
+    "cursor_shape": "bar",
     "edit_predictions": {
         "mode": "eager",
         "enabled_in_text_threads": false
@@ -34,16 +34,17 @@
         }
     },
     "icon_theme": "Catppuccin Frappé",
-    "ui_font_family": "MonoLisa Custom",
-    "buffer_font_family": "MonoLisa Custom",
+    "ui_font_family": "MonoLisaCustom Nerd Font",
+    "buffer_font_family": "MonoLisaCustom Nerd Font",
     "terminal": {
+        "cursor_shape": "bar",
         "toolbar": {
             "breadcrumbs": false
         },
         "font_family": "MonoLisaCustom Nerd Font"
     },
-    "ui_font_size": 18,
-    "buffer_font_size": 18,
+    "ui_font_size": 16,
+    "buffer_font_size": 16.0,
     "tab_size": 8,
     "wrap_guides": [80, 120],
     "minimap": { "show": "always" },
