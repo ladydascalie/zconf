@@ -6,39 +6,98 @@
 // To see the default key bindings run `zed: open default keymap`
 // from the command palette.
 [
-    {
-        "context": "Workspace",
-        "bindings": {
-            // "shift shift": "file_finder::Toggle"
-        }
-    },
-    {
-        "context": "Editor && vim_mode == insert",
-        "bindings": {
-            // "j k": "vim::NormalBefore"
-        }
-    },
-    {
-        "context": "Editor && vim_mode != insert",
-        "bindings": {
-            "g i": "editor::GoToImplementation"
-        }
-    },
-    {
-        "context": "Workspace",
-        "bindings": {
-            "ctrl-b": "workspace::ToggleRightDock"
-        }
-    },
-    {
-        "context": "Workspace",
-        "bindings": {
-            "ctrl-shift-b": "workspace::ToggleLeftDock"
-        }
-    },
-    {
-        "bindings": {
-            "shift-f6": "debugger::Restart"
-        }
-    }
+	{
+		"context": "Workspace",
+		"bindings": {
+			"ctrl-p": [
+				"task::Spawn",
+				{
+					"task_name": "Television File Finder",
+					"reveal_target": "center"
+				}
+			]
+			// "shift shift": "file_finder::Toggle"
+		}
+	},
+	{
+		"context": "Editor && vim_mode == insert",
+		"bindings": {
+			// "j k": "vim::NormalBefore"
+		}
+	},
+	{
+		"context": "Editor && mode == full && vim_mode != insert",
+		"bindings": {
+			"g i": "editor::GoToImplementation"
+		}
+	},
+	{
+		"context": "Editor && mode == full && vim_mode != insert",
+		"bindings": {
+			"space e": "workspace::ToggleRightDock"
+		}
+	},
+	{
+		"context": "Editor && mode == full && vim_mode != insert",
+		"bindings": {
+			"space q": "workspace::ToggleLeftDock"
+		}
+	},
+	{
+		"context": "Editor && mode == full && vim_mode != insert",
+		"bindings": {
+			"space d r": "debugger::Restart"
+		}
+	},
+	{
+		"context": "Editor && mode == full && vim_mode != insert",
+		"bindings": {
+			"space d s": "debugger::Start"
+		}
+	},
+	{
+		"context": "Workspace",
+		"bindings": {
+			"ctrl-b": "workspace::ToggleRightDock"
+		}
+	},
+	{
+		"context": "Workspace",
+		"bindings": {
+			"ctrl-shift-b": "workspace::ToggleLeftDock"
+		}
+	},
+	{
+		"bindings": {
+			"shift-f6": "debugger::Restart"
+		}
+	},
+	{
+		"context": "Editor",
+		"bindings": {
+			"f8": [
+				"editor::GoToDiagnostic",
+				{
+					"severity": {
+						"min": "error",
+						"max": "error"
+					}
+				}
+			]
+		}
+	},
+	{
+		"context": "Editor",
+		"bindings": {
+			"shift-f8": [
+				"editor::GoToPreviousDiagnostic",
+				{
+					"severity": {
+						"min": "error",
+						"max": "error"
+					}
+				}
+			]
+		}
+	}
 ]

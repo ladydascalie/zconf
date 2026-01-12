@@ -57,11 +57,10 @@ format = '[$symbol $context@$namespace]($style)'
 style = 'purple bold'
 disabled = false
 contexts = [
-	{ context_pattern = 'live.eu-west-1', style = "red blink bold underline", symbol = "🔥🔥🔥 " },
+	{ context_pattern = 'live.eu-west-1', style = "bold inverted", symbol = "🔥 " },
 	{ context_pattern = 'dev.eu-central-1', style = "green bold" },
 	{ context_pattern = '*ben@lootlocker.com@ll-kube.eu-central-1.eksctl.io*', style = 'green bold', context_alias = 'll-kube' }
 ]
 
 [mise]
 disabled = false
-
