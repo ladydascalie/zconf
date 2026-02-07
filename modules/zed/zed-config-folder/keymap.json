@@ -13,64 +13,77 @@
 				"task::Spawn",
 				{
 					"task_name": "Television File Finder",
-					"reveal_target": "center"
-				}
-			]
+					"reveal_target": "center",
+				},
+			],
+			"shift shift": [
+				"task::Spawn",
+				{
+					"task_name": "Television Text Finder",
+					"reveal_target": "center",
+				},
+			],
 			// "shift shift": "file_finder::Toggle"
-		}
+		},
 	},
 	{
 		"context": "Editor && vim_mode == insert",
 		"bindings": {
 			// "j k": "vim::NormalBefore"
-		}
+		},
 	},
 	{
 		"context": "Editor && mode == full && vim_mode != insert",
 		"bindings": {
-			"g i": "editor::GoToImplementation"
-		}
+			"g i": "editor::GoToImplementation",
+		},
 	},
 	{
 		"context": "Editor && mode == full && vim_mode != insert",
 		"bindings": {
-			"space e": "workspace::ToggleRightDock"
-		}
+			"space s": "editor::SplitSelectionIntoLines",
+		},
 	},
 	{
 		"context": "Editor && mode == full && vim_mode != insert",
 		"bindings": {
-			"space q": "workspace::ToggleLeftDock"
-		}
+			"space e": "workspace::ToggleRightDock",
+		},
 	},
 	{
 		"context": "Editor && mode == full && vim_mode != insert",
 		"bindings": {
-			"space d r": "debugger::Restart"
-		}
+			"space q": "workspace::ToggleLeftDock",
+		},
 	},
 	{
 		"context": "Editor && mode == full && vim_mode != insert",
 		"bindings": {
-			"space d s": "debugger::Start"
-		}
+			"space d r": "debugger::Restart",
+		},
+	},
+	{
+		"context": "Editor && mode == full && vim_mode != insert",
+		"bindings": {
+			"space d s": "debugger::Start",
+		},
 	},
 	{
 		"context": "Workspace",
 		"bindings": {
-			"ctrl-b": "workspace::ToggleRightDock"
-		}
+			"ctrl-b": "workspace::ToggleRightDock",
+		},
 	},
 	{
 		"context": "Workspace",
 		"bindings": {
-			"ctrl-shift-b": "workspace::ToggleLeftDock"
-		}
+			"ctrl-shift-b": "workspace::ToggleLeftDock",
+		},
 	},
 	{
 		"bindings": {
-			"shift-f6": "debugger::Restart"
-		}
+			"shift-f6": "debugger::Restart",
+		},
 	},
 	{
 		"context": "Editor",
@@ -80,11 +93,11 @@
 				{
 					"severity": {
 						"min": "error",
-						"max": "error"
-					}
-				}
-			]
-		}
+						"max": "error",
+					},
+				},
+			],
+		},
 	},
 	{
 		"context": "Editor",
@@ -94,10 +107,10 @@
 				{
 					"severity": {
 						"min": "error",
-						"max": "error"
-					}
-				}
-			]
-		}
-	}
+						"max": "error",
+					},
+				},
+			],
+		},
+	},
 ]

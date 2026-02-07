@@ -4,19 +4,26 @@
 [
 	{
 		"label": "Clean debugger bins",
-		"command": "rm __debug_bin*"
+		"command": "rm __debug_bin*",
 	},
 	{
 		"label": "Sublime Merge",
 		"command": "smerge $ZED_WORKTREE_ROOT &",
 		"hide": "always",
-		"reveal": "never"
+		"reveal": "never",
 	},
 	{
 		"label": "Television File Finder",
 		"command": "zed \"$(tv files)\"",
 		"hide": "always",
 		"allow_concurrent_runs": true,
-		"use_new_terminal": true
-	}
+		"use_new_terminal": true,
+	},
+	{
+		"label": "Television Text Finder",
+		"command": "zed \"$(tv text)\"",
+		"hide": "always",
+		"allow_concurrent_runs": true,
+		"use_new_terminal": true,
+	},
 ]

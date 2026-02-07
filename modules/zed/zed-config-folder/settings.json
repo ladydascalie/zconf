@@ -1,32 +1,9 @@
 {
-	"ssh_connections": [
-		{
-			"host": "65.21.61.74",
-			"username": "root",
-			"args": [],
-			"projects": [
-				{
-					"paths": ["/./"],
-				},
-				{
-					"paths": ["/etc/docker"],
-				},
-				{
-					"paths": ["/root"],
-				},
-			],
-			"nickname": "wg-easy",
+	"agent_servers": {
+		"github-copilot": {
+			"type": "registry",
 		},
-		{
-			"host": "codespace",
-			"args": [],
-			"projects": [
-				{
-					"paths": ["/workspaces/data-migrator"],
-				},
-			],
-		},
-	],
+	},
 	"redact_private_values": true,
 	"git": {
 		"inline_blame": {
@@ -39,7 +16,8 @@
 	},
 	"cursor_shape": "bar",
 	"edit_predictions": {
-		"mode": "eager",
+		"provider": "zed",
+  "mode": "eager",
 		"enabled_in_text_threads": false,
 	},
 	"project_panel": {
@@ -51,8 +29,8 @@
 		"always_allow_tool_actions": true,
 		"play_sound_when_agent_done": true,
 		"default_model": {
-			"provider": "copilot_chat",
-			"model": "claude-sonnet-4",
+			"provider": "zed.dev",
+			"model": "claude-sonnet-4-5",
 		},
 		"commit_message_model": {
 			"provider": "zed.dev",
@@ -120,20 +98,20 @@
 		},
 	},
 	"context_servers": {
-		// "serena-context-server": {
-		// 	"enabled": true,
-		// 	"command": "uvx",
-		// 	"args": [
-		// 		"--from",
-		// 		"git+https://github.com/oraios/serena",
-		// 		"serena",
-		// 		"start-mcp-server",
-		// 		"--context",
-		// 		"ide-assistant",
-		// 	],
-		// },
+		"serena-context-server": {
+   "enabled": true,
+			"command": "uvx",
+			"args": [
+				"--from",
+				"git+https://github.com/oraios/serena",
+				"serena",
+				"start-mcp-server",
+				"--context",
+				"ide-assistant",
+			],
+		},
 		"planetscale-context-server": {
-			"enabled": true,
+   "enabled": true,
 			"settings": {
 				"context_servers": {
 					"planetscale-context-server": {
@@ -145,9 +123,6 @@
 				},
 			},
 		},
-	},
-	"features": {
-		"edit_prediction_provider": "zed",
 	},
 	"languages": {
 		"Go": {
