@@ -16,12 +16,24 @@
 	},
 	"cursor_shape": "bar",
 	"edit_predictions": {
+		"provider": "zed",
 		"mode": "eager",
 		"enabled_in_text_threads": false,
 	},
 	"project_panel": {
 		"dock": "right",
 		"entry_spacing": "standard",
+	},
+	"language_models": {
+		"ollama": {
+			"available_models": [
+				{
+					"name": "qwen3:8b",
+					"max_tokens": 32690,
+					"supports_tools": true,
+				},
+			],
+		},
 	},
 	"agent": {
 		"dock": "left",
@@ -32,15 +44,19 @@
 			"model": "claude-sonnet-4-5",
 		},
 		"commit_message_model": {
-			"provider": "zed.dev",
-			"model": "claude-haiku-4-5",
+			"provider": "copilot_chat",
+			"model": "claude-sonnet-4",
 		},
 	},
 	"icon_theme": "Catppuccin Macchiato",
 	"ui_font_family": "MonoLisaCustom Nerd Font",
+	"ui_font_weight": 400,
+	"ui_font_size": 16,
+	"bottom_dock_layout": "full",
 	"buffer_font_family": "MonoLisaCustom Nerd Font",
 	"buffer_font_size": 16.0,
 	"buffer_font_weight": 300.0,
+	"line_indicator_format": "long",
 	"terminal": {
 		"cursor_shape": "bar",
 		"toolbar": {
@@ -49,7 +65,6 @@
 		"font_family": "MonoLisaCustom Nerd Font",
 	},
 	"hard_tabs": true,
-	"ui_font_size": 16,
 	"tab_size": 8,
 	"wrap_guides": [80, 120],
 	"minimap": { "show": "always" },
@@ -98,7 +113,7 @@
 	},
 	"context_servers": {
 		"serena-context-server": {
-   "enabled": true,
+			"enabled": true,
 			"command": "uvx",
 			"args": [
 				"--from",
@@ -110,7 +125,7 @@
 			],
 		},
 		"planetscale-context-server": {
-   "enabled": true,
+			"enabled": true,
 			"settings": {
 				"context_servers": {
 					"planetscale-context-server": {
@@ -122,9 +137,6 @@
 				},
 			},
 		},
-	},
-	"features": {
-		"edit_prediction_provider": "zed",
 	},
 	"languages": {
 		"Go": {

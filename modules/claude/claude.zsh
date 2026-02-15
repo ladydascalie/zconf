@@ -1,0 +1,1 @@
+ENABLE_TOOL_SEARCH=true
