@@ -66,3 +66,25 @@ if ! systemctl --user is-enabled autorestic.timer &> /dev/null; then
 	_dbg "module(restic) ~> enabling autorestic.timer"
 	systemctl --user enable autorestic.timer
 fi
+
+# helper functions
+backup-now() {
+	autorestic backup -a
+}
+
+backup-snapshots() {
+	autorestic -v exec -a -- snapshots --latest ${1:-10}
+}
+
+backup-ls() {
+	local target=${1:-/home/b}
+	autorestic -v exec -a -- ls latest "$target" | grep -E "^${target}/[^/]+/?$"
+}
+
+backup-check() {
+	autorestic -v exec -a -- check
+}
+
+backup-status() {
+	systemctl --user status autorestic.timer
+}
