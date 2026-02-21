@@ -1,0 +1,6 @@
+[Unit]
+Description=Autorestic backup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/autorestic -c /home/b/.config/autorestic/.autorestic.yml cron
