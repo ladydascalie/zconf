@@ -16,3 +16,5 @@ helm = "latest"
 aws-cli = { version = "latest", symlink_bins = "true" }
 television = "latest"
 go = "latest"
+pipx = "latest"
+fzf = "latest"

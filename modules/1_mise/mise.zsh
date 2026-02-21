@@ -15,5 +15,5 @@ else
         ln -s $config_in_place $config_symlink
 fi
 
-eval "$(~/.local/bin/mise activate zsh)" # non-login mode
-eval "$(~/.local/bin/mise hook-env -s zsh)"
+eval "$(mise activate zsh)" # non-login mode
+eval "$(mise hook-env -s zsh)"
