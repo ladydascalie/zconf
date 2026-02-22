@@ -22,14 +22,17 @@ local configurations=(
 source $preload
 
 # Optional bootstrap scripts: bootstrap/<pkg-manager>.zsh
-# Only sourced if the named package manager is installed.
-for f in "$root_dir"/bootstrap/*.zsh(N); do
-	local pkg_manager=${${f:t}%.zsh}
-	if is_installed "$pkg_manager"; then
-		_dbg "bootstrap ~> $f"
-		source "$f"
-	fi
-done
+# Only runs once. Delete .bootstrapped to re-run.
+if [ ! -f "$root_dir/.bootstrapped" ]; then
+	for f in "$root_dir"/bootstrap/*.zsh(N); do
+		local pkg_manager=${${f:t}%.zsh}
+		if is_installed "$pkg_manager"; then
+			_dbg "bootstrap ~> $f"
+			source "$f"
+		fi
+	done
+	touch "$root_dir/.bootstrapped"
+fi
 
 for f in "${configurations[@]}"; do
 	_load "${root_dir}/${f}"
