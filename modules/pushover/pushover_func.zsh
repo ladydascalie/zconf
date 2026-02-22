@@ -1,1 +1,0 @@
-notify_script_exit() { curl -X POST -H "Content-Type: application/x-www-form-urlencoded" https://api.pushover.net/1/messages.json -d 'priority=2&expire=3600&retry=30&token=a8stnva4cjqb7ruwptzqtvjkj6tp7s&user=ucux7wtc1im9wh71drkw3vn6kyxqwd&title=script+exit&message=check+your+output' }
