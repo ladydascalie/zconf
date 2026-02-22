@@ -27,6 +27,7 @@ locations:
           - .cache
           - .local/share/Steam
           - .local/share/Trash
+          - .local/share/containers
           - node_modules
           - .npm
           - .cargo

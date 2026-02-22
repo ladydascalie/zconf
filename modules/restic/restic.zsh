@@ -85,6 +85,38 @@ backup-check() {
 	autorestic -v exec -a -- check
 }
 
+backup-when() {
+	systemctl --user list-timers autorestic.timer
+}
+
+backup-how() {
+	local config=$HOME/.config/autorestic/.autorestic.yml
+	echo "Backup automation setup:"
+	echo ""
+	echo "Timer unit:"
+	local on_calendar=$(systemctl --user cat autorestic.timer 2>/dev/null | grep -oP '(?<=OnCalendar=).*')
+	echo "  OnCalendar=$on_calendar"
+	echo ""
+	echo "Next runs:"
+	systemd-analyze calendar "$on_calendar" --iterations=4 2>/dev/null | grep -E '^\s*(Next elapse|Iteration)'
+	echo ""
+	echo "Autorestic config ($config):"
+	echo "  locations:"
+	yq '.locations | to_entries[] | "    " + .key + ": " + (.value.from | join(", ")) + " -> " + (.value.to | join(", "))' -r "$config"
+	echo "  cron:"
+	yq '.locations | to_entries[] | "    " + .key + ": " + .value.cron' -r "$config"
+	echo "  retention:"
+	yq '.locations | to_entries[] | "    " + .key + ": " + ([.value.options.forget | to_entries[] | .key + "=" + (.value[0] | tostring)] | join(", "))' -r "$config"
+	echo ""
+	echo "Commands:"
+	echo "  backup-now        run a backup immediately"
+	echo "  backup-when       show next scheduled run"
+	echo "  backup-status     show timer status"
+	echo "  backup-snapshots  list recent snapshots"
+	echo "  backup-ls [path]  list files in latest snapshot"
+	echo "  backup-check      verify backup integrity"
+}
+
 backup-status() {
 	systemctl --user status autorestic.timer
 }

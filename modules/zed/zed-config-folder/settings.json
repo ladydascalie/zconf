@@ -1,8 +1,9 @@
 {
+	"buffer_line_height": "comfortable",
 	"outline_panel": {
-  "auto_fold_dirs": true
- },
- "agent_servers": {
+		"auto_fold_dirs": true,
+	},
+	"agent_servers": {
 		"github-copilot": {
 			"type": "registry",
 		},
@@ -15,7 +16,7 @@
 	},
 	"tabs": {
 		"show_diagnostics": "errors",
-  "file_icons": true,
+		"file_icons": true,
 		"git_status": true,
 	},
 	"cursor_shape": "bar",
@@ -28,20 +29,9 @@
 		"dock": "right",
 		"entry_spacing": "standard",
 	},
-	"language_models": {
-		"ollama": {
-			"available_models": [
-				{
-					"name": "qwen3:8b",
-					"max_tokens": 32690,
-					"supports_tools": true,
-				},
-			],
-		},
-	},
+	"language_models": {},
 	"agent": {
 		"dock": "left",
-		"always_allow_tool_actions": true,
 		"play_sound_when_agent_done": true,
 		"default_model": {
 			"provider": "zed.dev",
@@ -59,7 +49,7 @@
 	"bottom_dock_layout": "contained",
 	"buffer_font_family": "MonoLisaCustom Nerd Font",
 	"buffer_font_size": 16.0,
-	"buffer_font_weight": 300.0,
+	"buffer_font_weight": 400.0,
 	"line_indicator_format": "long",
 	"terminal": {
 		"cursor_shape": "bar",
@@ -75,7 +65,7 @@
 	"theme": {
 		"mode": "dark",
 		"light": "One Light",
-		"dark": "Gruvbox Crisp Anysphere Blend Dark",
+		"dark": "Nightfox - opaque",
 	},
 	"vim_mode": true,
 	"lsp": {
