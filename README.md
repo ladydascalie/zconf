@@ -6,7 +6,14 @@ To use this config, source it in `.zshrc`:
 [ -f ~/zconf/init.zsh ] && source ~/zconf/init.zsh
 ```
 
-The aws template required the use of the 1password cli. To install it, refer
-to the [1password cli documentation][1password-cli].
+## Module load order
+
+Modules are discovered via `find` and loaded in alphabetical order by path.
+To control ordering, prefix the directory name (e.g. `1_mise` loads before `aws`).
+
+## Dependencies
+
+Several modules use the [1Password CLI][1password-cli] to inject secrets from
+templates (`.tpl` files) into generated config files at first run.
 
 [1password-cli]: https://developer.1password.com/docs/cli/get-started#install
