@@ -21,11 +21,10 @@ local configurations=(
 # Ensure requisite functions are preloaded.
 source $preload
 
-# Optional user-provided bootstrap scripts (not tracked in git).
-# e.g. bootstrap.pacman.zsh, bootstrap.apt.zsh, bootstrap.yay.zsh
-for f in "$root_dir"/bootstrap.*.zsh(N); do
-	local pkg_manager=${${f:t}#bootstrap.}
-	pkg_manager=${pkg_manager%.zsh}
+# Optional bootstrap scripts: bootstrap/<pkg-manager>.zsh
+# Only sourced if the named package manager is installed.
+for f in "$root_dir"/bootstrap/*.zsh(N); do
+	local pkg_manager=${${f:t}%.zsh}
 	if is_installed "$pkg_manager"; then
 		_dbg "bootstrap ~> $f"
 		source "$f"
