@@ -21,15 +21,6 @@ is_installed() {
 }
 
 # This one will fail silently, without warning.
-is_macos() {
-	# never gonna use windows so I don't need to be smart!
-	if [ "$(uname 2> /dev/null)" != "Linux" ]; then
-		return 0
-	fi
-	return 1
-}
-
-# This one will fail silently, without warning.
 is_linux() {
 	if [ "$(uname 2> /dev/null)" = "Linux" ]; then
 		return 0

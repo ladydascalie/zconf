@@ -2,7 +2,6 @@
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=100000
 export SAVEHIST=100000
-export ANTIBODY_HOME=$HOME/.antibody
 export ZSH_CACHE_DIR=$HOME/.zshcache
 
 # zsh options
