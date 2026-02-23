@@ -1,5 +1,8 @@
 {
-	"buffer_line_height": "comfortable",
+	"file_finder": {
+  "include_ignored": "all"
+ },
+ "buffer_line_height": "comfortable",
 	"outline_panel": {
 		"auto_fold_dirs": true,
 	},

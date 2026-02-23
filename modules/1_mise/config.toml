@@ -11,7 +11,7 @@ kubectx = "latest"
 yt-dlp = "latest"
 jless = "latest"
 node = "22"
-golangci-lint = "latest"
+golangci-lint = "2.9.0"
 helm = "latest"
 aws-cli = { version = "latest", symlink_bins = "true" }
 television = "latest"

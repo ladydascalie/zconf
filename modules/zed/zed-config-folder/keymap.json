@@ -7,32 +7,6 @@
 // from the command palette.
 [
 	{
-		"context": "Workspace",
-		"bindings": {
-			"ctrl-p": [
-				"task::Spawn",
-				{
-					"task_name": "Television File Finder",
-					"reveal_target": "center",
-				},
-			],
-			"shift shift": [
-				"task::Spawn",
-				{
-					"task_name": "Television Text Finder",
-					"reveal_target": "center",
-				},
-			],
-			// "shift shift": "file_finder::Toggle"
-		},
-	},
-	{
-		"context": "Editor && vim_mode == insert",
-		"bindings": {
-			// "j k": "vim::NormalBefore"
-		},
-	},
-	{
 		"context": "Editor && mode == full && vim_mode != insert",
 		"bindings": {
 			"g i": "editor::GoToImplementation",
