@@ -8,7 +8,7 @@
 			"type": "registry",
 		},
 	},
-	"redact_private_values": true,
+	"redact_private_values": false,
 	"git": {
 		"inline_blame": {
 			"show_commit_summary": false,

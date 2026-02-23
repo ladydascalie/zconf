@@ -24,12 +24,19 @@ source $preload
 # Optional bootstrap scripts: bootstrap/<pkg-manager>.zsh
 # Only runs once. Delete .bootstrapped to re-run.
 if [ ! -f "$root_dir/.bootstrapped" ]; then
+	_info "First-time bootstrap"
+	echo "    Installing packages and tools. sudo may be required."
+	echo ""
 	for f in "$root_dir"/bootstrap/*.zsh(N); do
 		local pkg_manager=${${f:t}%.zsh}
 		if is_installed "$pkg_manager"; then
-			_dbg "bootstrap ~> $f"
+			_info "bootstrap: $pkg_manager"
 			source "$f"
 		fi
+	done
+	for f in "$root_dir"/bootstrap/scripts/*.zsh(N); do
+		_info "bootstrap: ${${f:t}%.zsh}"
+		source "$f"
 	done
 	touch "$root_dir/.bootstrapped"
 fi

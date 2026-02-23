@@ -1,1 +1,0 @@
-{{ op://Private/Restic Repository/password }}
