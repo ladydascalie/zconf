@@ -1,4 +1,5 @@
 ENABLE_TOOL_SEARCH=true
+ENABLE_LSP_TOOL=1
 
 local dir=$(dirname $0)
 local CLAUDE_MD_SOURCE=$dir/CLAUDE.md

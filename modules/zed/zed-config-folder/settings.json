@@ -34,7 +34,12 @@
 	},
 	"language_models": {},
 	"agent": {
-		"dock": "left",
+		"inline_assistant_model": {
+   "provider": "copilot_chat",
+   "model": "gpt-4o",
+   "enable_thinking": false
+  },
+  "dock": "left",
 		"play_sound_when_agent_done": true,
 		"default_model": {
 			"provider": "zed.dev",
