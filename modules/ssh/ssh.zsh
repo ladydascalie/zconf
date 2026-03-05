@@ -3,6 +3,23 @@ export SSH_AUTH_SOCK=~/.1password/agent.sock
 
 
 local dir=$(dirname $0)
+
+# Symlink 1Password SSH agent config
+local agent_toml=$dir/agent.toml
+local agent_toml_symlink=$HOME/.config/1Password/ssh/agent.toml
+
+mkdir -p $(dirname $agent_toml_symlink)
+
+if [ -L $agent_toml_symlink ] && [ "$(readlink $agent_toml_symlink)" = "$agent_toml" ]; then
+	_dbg "module(ssh) ~> $agent_toml_symlink already symlinked, nothing to do."
+elif [ -e $agent_toml_symlink ]; then
+	_dbg "module(ssh) ~> $agent_toml_symlink exists but is not our symlink. replacing."
+	rm $agent_toml_symlink
+	ln -s $agent_toml $agent_toml_symlink
+else
+	_dbg "module(ssh) ~> symlinking $agent_toml to $agent_toml_symlink"
+	ln -s $agent_toml $agent_toml_symlink
+fi
 local allowed_signers_template=$dir/allowed_signers.tpl
 local allowed_signers_output=$HOME/.ssh/allowed_signers
 
