@@ -15,7 +15,7 @@ local GIT_CONFIG_SYMLINK=$HOME/.gitconfig
 if [ -f $GIT_CONFIG_SYMLINK ]; then
         # if it does, all good.
         _dbg "module(git) ~> $GIT_CONFIG_SYMLINK already exists, nothing to do."
-else
+elif is_installed op; then
         # keep a symlink since sublime merge doesn't read this variable.
         _dbg "module(git) ~> injecting $GIT_CONFIG_TEMPLATE to $GIT_CONFIG_IN_PLACE using 1password cli"
         op inject -i $GIT_CONFIG_TEMPLATE -o $GIT_CONFIG_IN_PLACE

@@ -1,5 +1,6 @@
 local dir="$(dirname $0)"
 local config_dir=$HOME/.config/environment.d
+mkdir -p $config_dir
 local config_files=($dir/*.conf)
 
 for f in $config_files; do

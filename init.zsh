@@ -43,6 +43,7 @@ if [ ! -f "$root_dir/.bootstrapped" ]; then
 		source "$f"
 	done
 
+	rehash
 	touch "$root_dir/.bootstrapped"
 fi
 

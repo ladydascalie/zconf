@@ -1,6 +1,7 @@
 export GPG_TTY=$(tty)
 
 # GPG_AGENT_CONF is the path to the gpg-agent.conf file.
+mkdir -p "${HOME}/.gnupg"
 GPG_AGENT_CONF="${HOME}/.gnupg/gpg-agent.conf"
 
 # PINENTRY_PROGRAM is the path to the pinentry program.
@@ -16,7 +17,7 @@ OPTIONS=(
 )
 
 for OPTION in "${OPTIONS[@]}"; do
-    if ! grep -q "^${OPTION}$" "${GPG_AGENT_CONF}"; then
+    if ! grep -q "^${OPTION}$" "${GPG_AGENT_CONF}" 2>/dev/null; then
         echo "Appending '${OPTION}' to ${GPG_AGENT_CONF} ..."
         echo "${OPTION}" >> "${GPG_AGENT_CONF}"
     else

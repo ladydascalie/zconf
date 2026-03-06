@@ -6,7 +6,7 @@ local destination_file=$dir/env.zsh
 if [ -f $destination_file ]; then
 	# all good, do nothing.
 	_dbg "module(aws) ~> $destination_file already exists, nothing to do."
-else
+elif is_installed op; then
 	op inject -i $template -o $destination_file
 	_dbg "module(aws) ~> injecting $template to $destination_file using 1password cli"
 fi

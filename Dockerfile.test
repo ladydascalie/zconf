@@ -1,0 +1,28 @@
+FROM archlinux:base-devel
+
+# Update mirrors and install base packages
+RUN pacman -Syu --noconfirm zsh git curl sudo
+
+# Create a non-root user (paru and makepkg refuse to run as root)
+RUN useradd -m -s /bin/zsh testuser \
+    && echo "testuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+# Copy zconf into the user's home
+COPY --chown=testuser:testuser . /home/testuser/zconf
+
+USER testuser
+WORKDIR /home/testuser
+
+# First run: bootstrap + module loading
+RUN zsh -c ' \
+    export VERBOSE_STARTUP=1; \
+    source /home/testuser/zconf/init.zsh; \
+    echo "==> first run completed successfully" \
+'
+
+# Second run: idempotency — should produce no errors or bootstrap output
+RUN zsh -c ' \
+    export VERBOSE_STARTUP=1; \
+    source /home/testuser/zconf/init.zsh; \
+    echo "==> second run completed successfully" \
+'
