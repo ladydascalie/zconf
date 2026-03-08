@@ -4,7 +4,13 @@ item = "5y6dtzi3ekbdj24kyjwgkbvvbq"
 vault = "p4tvdpeqml232lifptwou7knfy"
 account = "B5F76D5KEBGTZEZTPROKFAH6SE"
 
+[[ssh-keys]]
+item = "4anirkgfqudba2uffx6tspzi5i"
+vault = "p4tvdpeqml232lifptwou7knfy"
+account = "B5F76D5KEBGTZEZTPROKFAH6SE"
+
 # personal
 [[ssh-keys]]
 account = "Q7QNQDITY5FTXJRAIOEYAQUFKE"
 vault = "ktz6k4tjort7bk4fsltrjsqx4a"
+
