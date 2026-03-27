@@ -8,6 +8,9 @@
 	},
 	"agent_servers": {
 		"opencode": {
+   "favorite_models": [
+    "anthropic/claude-sonnet-4-6"
+   ],
    "type": "registry"
   },
   "github-copilot": {
