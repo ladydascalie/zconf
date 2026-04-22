@@ -1,5 +1,8 @@
 {
-	"file_finder": {
+	"git_panel": {
+  "tree_view": false
+ },
+ "file_finder": {
   "include_ignored": "all"
  },
  "buffer_line_height": "comfortable",
