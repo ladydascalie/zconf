@@ -1,14 +1,33 @@
 {
-	"buffer_line_height": "comfortable",
+	"cli_default_open_behavior": "existing_window",
+ "collaboration_panel": {
+  "dock": "right"
+ },
+ "git_panel": {
+  "dock": "right",
+  "tree_view": false
+ },
+ "file_finder": {
+  "include_ignored": "all"
+ },
+ "buffer_line_height": "comfortable",
 	"outline_panel": {
-		"auto_fold_dirs": true,
+		"dock": "right",
+  "auto_fold_dirs": true,
 	},
 	"agent_servers": {
-		"github-copilot": {
+		"opencode": {
+   "favorite_models": [
+    "anthropic/claude-sonnet-4-6",
+    "anthropic/claude-opus-4-5-20251101"
+   ],
+   "type": "registry"
+  },
+  "github-copilot": {
 			"type": "registry",
 		},
 	},
-	"redact_private_values": true,
+	"redact_private_values": false,
 	"git": {
 		"inline_blame": {
 			"show_commit_summary": false,
@@ -31,7 +50,12 @@
 	},
 	"language_models": {},
 	"agent": {
-		"dock": "left",
+		"inline_assistant_model": {
+   "provider": "copilot_chat",
+   "model": "gpt-4o",
+   "enable_thinking": false
+  },
+  "dock": "left",
 		"play_sound_when_agent_done": true,
 		"default_model": {
 			"provider": "zed.dev",
@@ -65,7 +89,7 @@
 	"theme": {
 		"mode": "dark",
 		"light": "One Light",
-		"dark": "Kanagawa Dragon - No Italics",
+		"dark": "Nightfox - opaque",
 	},
 	"vim_mode": true,
 	"lsp": {
@@ -107,7 +131,7 @@
 	},
 	"context_servers": {
 		"serena-context-server": {
-			"enabled": true,
+   "enabled": true,
 			"command": "uvx",
 			"args": [
 				"--from",
@@ -119,7 +143,7 @@
 			],
 		},
 		"planetscale-context-server": {
-			"enabled": true,
+   "enabled": true,
 			"settings": {
 				"context_servers": {
 					"planetscale-context-server": {

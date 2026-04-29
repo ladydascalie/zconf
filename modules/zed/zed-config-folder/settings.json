@@ -1,5 +1,10 @@
 {
-	"git_panel": {
+	"cli_default_open_behavior": "existing_window",
+ "collaboration_panel": {
+  "dock": "right"
+ },
+ "git_panel": {
+  "dock": "right",
   "tree_view": false
  },
  "file_finder": {
@@ -7,7 +12,8 @@
  },
  "buffer_line_height": "comfortable",
 	"outline_panel": {
-		"auto_fold_dirs": true,
+		"dock": "right",
+  "auto_fold_dirs": true,
 	},
 	"agent_servers": {
 		"opencode": {
@@ -50,7 +56,7 @@
    "enable_thinking": false
   },
   "dock": "left",
-		"play_sound_when_agent_done": true,
+		"play_sound_when_agent_done": "always",
 		"default_model": {
 			"provider": "zed.dev",
 			"model": "claude-sonnet-4-5",
