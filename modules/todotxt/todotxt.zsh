@@ -8,7 +8,26 @@ _todotxt_print() {
     echo
 }
 
-alias t='todo.sh'
+t() {
+    if [[ "${1:-}" == "edit" ]]; then
+        ${EDITOR:-vim} "$HOME/todo.txt"
+    else
+        todo.sh "$@"
+    fi
+}
+
+# Open companion note for a task: tn 1 → $EDITOR ~/todo/notes/auth-merge.md
+tn() {
+    local note
+    note=$(sed -n "${1}p" "$HOME/todo.txt" | grep -oP '=>\s*\K\S+')
+    if [[ -n "$note" && -f "$HOME/todo/$note" ]]; then
+        ${EDITOR:-vim} "$HOME/todo/$note"
+    elif [[ -n "$note" ]]; then
+        echo "note not found: ~/todo/$note"
+    else
+        echo "no note ref on task $1"
+    fi
+}
 
 if [[ $- == *i* ]]; then
     _todotxt_print
