@@ -1,90 +1,107 @@
 {
+	"ssh_connections": [
+  {
+   "host": "mysql-prod-primary",
+   "args": [],
+   "projects": [
+    {
+     "paths": [
+      "/root"
+     ]
+    },
+    {
+     "paths": [
+      "/tmp/./"
+     ]
+    }
+   ]
+  },
+  {
+   "host": "mysql-prod-replica",
+   "args": [],
+   "projects": []
+  }
+ ],
+ "agent_buffer_font_size": 14.0,
+	"agent_ui_font_size": 14.0,
 	"cli_default_open_behavior": "existing_window",
 	"collaboration_panel": {
-		"dock": "right"
+		"dock": "right",
 	},
 	"git_panel": {
 		"dock": "right",
-		"tree_view": false
+		"tree_view": false,
 	},
 	"file_finder": {
-		"include_ignored": "all"
+		"include_ignored": "all",
 	},
 	"buffer_line_height": "comfortable",
 	"outline_panel": {
 		"dock": "right",
-		"auto_fold_dirs": true
+		"auto_fold_dirs": true,
 	},
 	"agent_servers": {
-		"opencode": {
-			"favorite_models": [
-				"anthropic/claude-sonnet-4-6",
-				"anthropic/claude-opus-4-5-20251101"
-			],
-			"type": "registry"
-		},
 		"github-copilot": {
-			"type": "registry"
-		}
+			"type": "registry",
+		},
 	},
 	"redact_private_values": false,
 	"git": {
 		"inline_blame": {
-			"show_commit_summary": false
-		}
+			"show_commit_summary": false,
+		},
 	},
 	"tabs": {
 		"show_diagnostics": "errors",
 		"file_icons": true,
-		"git_status": true
+		"git_status": true,
 	},
 	"cursor_shape": "bar",
 	"edit_predictions": {
 		"provider": "zed",
 		"mode": "eager",
-		"enabled_in_text_threads": false
 	},
 	"project_panel": {
 		"dock": "right",
-		"entry_spacing": "standard"
+		"entry_spacing": "standard",
 	},
 	"language_models": {},
 	"agent": {
 		"inline_assistant_model": {
 			"provider": "copilot_chat",
 			"model": "gpt-4o",
-			"enable_thinking": false
+			"enable_thinking": false,
 		},
 		"dock": "left",
 		"play_sound_when_agent_done": "always",
 		"default_model": {
 			"provider": "zed.dev",
-			"model": "claude-sonnet-4-5"
+			"model": "claude-sonnet-4-5",
 		},
 		"commit_message_model": {
 			"provider": "copilot_chat",
-			"model": "claude-sonnet-4"
-		}
+			"model": "claude-sonnet-4",
+		},
 	},
 	"icon_theme": {
 		"mode": "dark",
 		"light": "Catppuccin Macchiato",
-		"dark": "Catppuccin Macchiato"
+		"dark": "Catppuccin Macchiato",
 	},
 	"ui_font_family": "MonoLisaCustom Nerd Font",
 	"ui_font_weight": 400,
-	"ui_font_size": 16,
+	"ui_font_size": 14.0,
 	"bottom_dock_layout": "contained",
 	"buffer_font_family": "MonoLisaCustom Nerd Font",
 	"buffer_font_size": 16.0,
-	"buffer_font_weight": 400.0,
+	"buffer_font_weight": 350.0,
 	"line_indicator_format": "long",
 	"terminal": {
 		"cursor_shape": "bar",
 		"toolbar": {
-			"breadcrumbs": false
+			"breadcrumbs": false,
 		},
-		"font_family": "MonoLisaCustom Nerd Font"
+		"font_family": "MonoLisaCustom Nerd Font",
 	},
 	"hard_tabs": true,
 	"tab_size": 8,
@@ -93,7 +110,7 @@
 	"theme": {
 		"mode": "dark",
 		"light": "One Light",
-		"dark": "Nightfox - opaque"
+		"dark": "Nightfox - opaque",
 	},
 	"vim_mode": true,
 	"lsp": {
@@ -103,9 +120,9 @@
 					"golangci-lint",
 					"run",
 					"--output.json.path=stdout",
-					"--show-stats=false"
-				]
-			}
+					"--show-stats=false",
+				],
+			},
 		},
 		"gopls": {
 			"initialization_options": {
@@ -115,12 +132,9 @@
 					"unusedvariable": true,
 					"useany": true,
 					"modernize": true,
-					"ST1000": false
+					"ST1000": false,
 				},
 				"staticcheck": true,
-				"ui.codelenses": {
-					"run_vulncheck_exp": true
-				},
 				"hints": {
 					"assignVariableTypes": false,
 					"compositeLiteralFields": true,
@@ -128,48 +142,31 @@
 					"constantValues": true,
 					"functionTypeParameters": true,
 					"parameterNames": true,
-					"rangeVariableTypes": true
-				}
-			}
-		}
-	},
-	"context_servers": {
-		"serena-context-server": {
-			"enabled": true,
-			"command": "uvx",
-			"args": [
-				"--from",
-				"git+https://github.com/oraios/serena",
-				"serena",
-				"start-mcp-server",
-				"--context",
-				"ide-assistant"
-			]
+					"rangeVariableTypes": true,
+				},
+			},
 		},
-		"planetscale-context-server": {
-			"enabled": true,
-			"settings": {
-				"context_servers": {
-					"planetscale-context-server": {
-						"settings": {
-							"organization": "lootlocker",
-							"database": "game_backend"
-						}
-					}
-				}
-			}
-		}
+		"templ": {},
 	},
+	"context_servers": {},
 	"languages": {
 		"Go": {
 			"formatter": "language_server",
-			"tab_size": 8
+			"tab_size": 8,
 		},
 		"YAML": {
-			"tab_size": 2
+			"tab_size": 2,
 		},
 		"JSONC": {
-			"tab_size": 4
-		}
-	}
+			"tab_size": 4,
+		},
+		"Templ": {
+			"language_servers": [
+				"templ",
+				"tailwindcss-language-server",
+				"vscode-html-language-server",
+				"emmet-language-server",
+			],
+		},
+	},
 }
