@@ -1,28 +1,17 @@
 {
 	"ssh_connections": [
-  {
-   "host": "mysql-prod-primary",
-   "args": [],
-   "projects": [
-    {
-     "paths": [
-      "/root"
-     ]
-    },
-    {
-     "paths": [
-      "/tmp/./"
-     ]
-    }
-   ]
-  },
-  {
-   "host": "mysql-prod-replica",
-   "args": [],
-   "projects": []
-  }
- ],
- "agent_buffer_font_size": 14.0,
+		{
+			"host": "mysql-prod-primary",
+			"args": [],
+			"projects": [],
+		},
+		{
+			"host": "mysql-prod-replica",
+			"args": [],
+			"projects": [],
+		},
+	],
+	"agent_buffer_font_size": 14.0,
 	"agent_ui_font_size": 14.0,
 	"cli_default_open_behavior": "existing_window",
 	"collaboration_panel": {
@@ -41,6 +30,16 @@
 		"auto_fold_dirs": true,
 	},
 	"agent_servers": {
+		"opencode": {
+			"default_config_options": {
+				"effort": "high",
+				"model": "deepseek/deepseek-v4-pro",
+			},
+			"favorite_config_option_values": {
+				"model": ["deepseek/deepseek-v4-pro"],
+			},
+			"type": "registry",
+		},
 		"github-copilot": {
 			"type": "registry",
 		},
@@ -86,7 +85,7 @@
 	"icon_theme": {
 		"mode": "dark",
 		"light": "Catppuccin Macchiato",
-		"dark": "Catppuccin Macchiato",
+		"dark": "Catppuccin Mocha",
 	},
 	"ui_font_family": "MonoLisaCustom Nerd Font",
 	"ui_font_weight": 400,
@@ -110,7 +109,7 @@
 	"theme": {
 		"mode": "dark",
 		"light": "One Light",
-		"dark": "Nightfox - opaque",
+		"dark": "Catppuccin Mocha",
 	},
 	"vim_mode": true,
 	"lsp": {
