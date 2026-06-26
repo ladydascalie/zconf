@@ -17,5 +17,4 @@ fi
 
 if is_installed mise; then
 	eval "$(mise activate zsh)" # non-login mode
-	eval "$(mise hook-env -s zsh)"
 fi

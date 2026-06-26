@@ -12,7 +12,7 @@
 		},
 	],
 	"agent_buffer_font_size": 14.0,
-	"agent_ui_font_size": 14.0,
+	"agent_ui_font_size": 16.0,
 	"cli_default_open_behavior": "existing_window",
 	"collaboration_panel": {
 		"dock": "right",
@@ -74,8 +74,8 @@
 		"dock": "left",
 		"play_sound_when_agent_done": "always",
 		"default_model": {
-			"provider": "zed.dev",
-			"model": "claude-sonnet-4-5",
+			"provider": "openrouter",
+			"model": "openrouter/auto",
 		},
 		"commit_message_model": {
 			"provider": "copilot_chat",
@@ -96,7 +96,8 @@
 	"buffer_font_weight": 350.0,
 	"line_indicator_format": "long",
 	"terminal": {
-		"cursor_shape": "bar",
+		"font_size": 12.0,
+  "cursor_shape": "bar",
 		"toolbar": {
 			"breadcrumbs": false,
 		},
@@ -147,7 +148,68 @@
 		},
 		"templ": {},
 	},
-	"context_servers": {},
+	"context_servers": {
+  "firefox-devtools": {
+   "enabled": false,
+   "remote": false,
+   "command": "npx",
+   "args": [
+    "-y",
+    "@mozilla/firefox-devtools-mcp@latest",
+    "--viewport",
+    "1440x900"
+   ],
+   "env": {}
+  },
+  "playwright": {
+   "enabled": false,
+   "remote": false,
+   "command": "npx",
+   "args": [
+    "-y",
+    "@playwright/mcp@latest"
+   ],
+   "env": {}
+  },
+  "grafana": {
+   "enabled": false,
+   "remote": false,
+   "command": "uvx",
+   "args": [
+    "mcp-grafana"
+   ],
+   "env": {
+    "GRAFANA_URL": "https://lootlocker.grafana.net",
+    "GRAFANA_SERVICE_ACCOUNT_TOKEN": "{{op://Env/OpenCode API Keys/GRAFANA_SERVICE_ACCOUNT_TOKEN}}"
+   }
+  },
+  "apidog_admin_api": {
+   "enabled": false,
+   "remote": false,
+   "command": "npx",
+   "args": [
+    "-y",
+    "apidog-mcp-server@latest",
+    "--project-id=446495"
+   ],
+   "env": {
+    "APIDOG_ACCESS_TOKEN": "{{op://Env/OpenCode API Keys/APIDOG_ACCESS_TOKEN}}"
+   }
+  },
+  "apidog_game_api": {
+   "enabled": false,
+   "remote": false,
+   "command": "npx",
+   "args": [
+    "-y",
+    "apidog-mcp-server@latest",
+    "--project=446496"
+   ],
+   "env": {
+    "APIDOG_ACCESS_TOKEN": "{{op://Env/OpenCode API Keys/APIDOG_ACCESS_TOKEN}}"
+   }
+  }
+ },
 	"languages": {
 		"Go": {
 			"formatter": "language_server",

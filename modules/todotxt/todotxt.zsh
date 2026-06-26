@@ -29,6 +29,3 @@ tn() {
     fi
 }
 
-if [[ $- == *i* ]]; then
-    _todotxt_print
-fi
