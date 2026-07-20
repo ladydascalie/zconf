@@ -33,10 +33,12 @@
 		"opencode": {
 			"default_config_options": {
 				"effort": "high",
-				"model": "deepseek/deepseek-v4-pro",
+				"model": "openrouter/deepseek/deepseek-v4-flash",
 			},
 			"favorite_config_option_values": {
-				"model": ["deepseek/deepseek-v4-pro"],
+				"model": [
+     "openrouter/deepseek/deepseek-v4-flash"
+    ],
 			},
 			"type": "registry",
 		},

@@ -7,6 +7,7 @@ format = """
 [│](bold red)$sudo$status$directory$golang$fill$kubernetes
 [╰](bold red)$character"""
 
+command_timeout = 1500
 # Wait 10 milliseconds for starship to check files under the current directory.
 scan_timeout = 10
 

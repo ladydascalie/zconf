@@ -3,6 +3,8 @@ local tools=(
 	$(find "$dir" -type f ! -wholename "$0" | sort)
 )
 
+_profile_checkpoint "modules: start"
+
 # load them all in.
 for f in $tools; do
 	if _is_zsh_file $f; then
@@ -10,3 +12,5 @@ for f in $tools; do
 		_load $f
 	fi
 done
+
+_profile_checkpoint "modules: done"

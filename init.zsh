@@ -21,6 +21,8 @@ local configurations=(
 # Ensure requisite functions are preloaded.
 source $preload
 
+_profile_checkpoint "preload done"
+
 # First-time bootstrap. Only runs once — delete .bootstrapped to re-run.
 if [ ! -f "$root_dir/.bootstrapped" ]; then
 	_info "First-time bootstrap"
@@ -45,11 +47,15 @@ if [ ! -f "$root_dir/.bootstrapped" ]; then
 
 	rehash
 	touch "$root_dir/.bootstrapped"
+	_profile_checkpoint "bootstrap done"
 fi
 
 for f in "${configurations[@]}"; do
 	_load "${root_dir}/${f}"
+	_profile_checkpoint "config: ${${f:t}:r}"
 done
+
+_profile_checkpoint "init.zsh done"
 
 # warn if zconf has uncommitted changes
 if [ -n "$(git -C "$root_dir" status --porcelain 2>/dev/null)" ]; then

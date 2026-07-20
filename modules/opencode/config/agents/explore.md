@@ -1,7 +1,7 @@
 ---
 description: Use this agent when you need to quickly identify which files in a codebase are relevant to a specific bug report or feature request. This agent performs pure discovery and triage; it does not propose fixes, explain logic, or make changes.
 mode: subagent
-model: deepseek/deepseek-v4-flash
+model: openrouter/deepseek/deepseek-v4-flash
 permission:
   read: allow
   grep: allow

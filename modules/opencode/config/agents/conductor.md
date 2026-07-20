@@ -44,6 +44,7 @@ go through subagents.
 | build         | Multi-file implementation, new features, refactors |
 | task          | Small single-file edits, isolated fixes           |
 | explore       | File discovery, finding code locations            |
+| review        | Code review, PR review, Hunk-based review sessions |
 
 # Rules
 

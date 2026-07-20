@@ -21,27 +21,32 @@ export default tool({
       return JSON.stringify({ action: "delegate", subagent_type: "build", reasoning: "Investigation needed", confidence: 0.85 });
     }
 
-    // 2. File discovery
+    // 2. Code review
+    if (/(?:(?:\bcode review\b|\breview\s+(?:this|my|the|these|that|a|some|those|changes|code|diff|pr|pull request|commit|patch|branch))\b|\bCR\b|\bcheck\s+(?:my|this|over|out|the)\s+(?:code|changes|diff|pr|pull)\b|\bhunk\b)/.test(lower)) {
+      return JSON.stringify({ action: "delegate", subagent_type: "review", reasoning: "Code review requested", confidence: 0.9 });
+    }
+
+    // 3. File discovery
     if (/(?:find|locate|where (?:is|are|can I find|do I find)|search.*(?:file|code)|discover|which (?:file|class|function|service|route|endpoint)|what (?:file|class|function|route|endpoint|service)|navigate to|go to (?:the )?(?:file|definition)|look up)\b/.test(lower) && /(?:file|class|function|symbol|route|endpoint|code|source|definition|handler|service|method|variable|type)\b/.test(lower)) {
       return JSON.stringify({ action: "delegate", subagent_type: "explore", reasoning: "File discovery needed", confidence: 0.9 });
     }
 
-    // 3. Large implementation (standalone keywords — no wordCount gate)
+    // 4. Large implementation (standalone keywords — no wordCount gate)
     if (/(?:feature|implement|migrate|rewrite|restructure|scaffold|generat(?:e|or)|comprehensive|full (?:rewrite|overhaul|redesign|implementation))\b/.test(lower)) {
       return JSON.stringify({ action: "delegate", subagent_type: "build", reasoning: "Multi-file change or new feature", confidence: 0.85 });
     }
 
-    // 4. Small isolated changes
+    // 5. Small isolated changes
     if (wordCount < 50 && /(?:fix|bug|typo|rename|delete|remove|update|bump|change|correct|adjust|patch|hotfix|resolve|clean ?up|tweak|tidy|sort out|workaround|insert|revert|add|create)\b/.test(lower)) {
       return JSON.stringify({ action: "delegate", subagent_type: "task", reasoning: "Small isolated change", confidence: 0.9 });
     }
 
-    // 5. Planning & architecture
+    // 6. Planning & architecture
     if (/(?:plan|architecture|design|strategy|approach|roadmap|milestone|blueprint|migration|trade[ -]?off|decompos(?:e|ing)|proposal|architect)\b/.test(lower) || /(?:how should|what should).{0,80}(?:structure|organize|organise|organization|design|architect|approach|plan|setup|scaffold)\b/.test(lower) || (/\brefactor\b/.test(lower) && /(?:plan|approach|strategy|steps|outline)\b/.test(lower))) {
       return JSON.stringify({ action: "delegate", subagent_type: "plan", reasoning: "Planning or architecture needed", confidence: 0.9 });
     }
 
-    // 6. Large implementation (wordCount-gated — for add/create/build/write/setup that aren't standalone build keywords)
+    // 7. Large implementation (wordCount-gated — for add/create/build/write/setup that aren't standalone build keywords)
     if ((wordCount > 30 && /(?:add|create|build|write|setup)\b/.test(lower)) || (/\brefactor\b/.test(lower) && wordCount > 20)) {
       return JSON.stringify({ action: "delegate", subagent_type: "build", reasoning: "Multi-file change or new feature", confidence: 0.85 });
     }

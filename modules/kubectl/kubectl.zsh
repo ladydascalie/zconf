@@ -1,3 +1,3 @@
 if [ $commands[kubectl] ]; then
-        source <(kubectl completion zsh)
+	_lazy_compdef kubectl "kubectl completion zsh"
 fi

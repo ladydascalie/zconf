@@ -4,7 +4,12 @@
 # source antidote
 . ~/.antidote/antidote.zsh
 
-antidote bundle < $HOME/zconf/antidote/zsh_plugins.txt > $HOME/zconf/antidote/zsh_plugins.zsh
+# only regenerate the static file if the plugin manifest has changed (saves ~100ms most shells)
+local _plugins_txt=$HOME/zconf/antidote/zsh_plugins.txt
+local _plugins_zsh=$HOME/zconf/antidote/zsh_plugins.zsh
+if [[ ! -e $_plugins_zsh || $_plugins_txt -nt $_plugins_zsh ]]; then
+	antidote bundle < $_plugins_txt > $_plugins_zsh
+fi
 
 # uncomment if you want your session to have commands like `antidote update`
 autoload -Uz $/.antidote/functions/antidote
