@@ -109,6 +109,11 @@
 				"--viewport",
 				"1440x900"
 			]
+		},
+		"specification-website": {
+			"enabled": true,
+			"type": "remote",
+			"url": "https://mcp.specification.website/mcp"
 		}
 	}
 }
