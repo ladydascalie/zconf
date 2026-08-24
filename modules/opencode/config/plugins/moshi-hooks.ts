@@ -2,7 +2,7 @@
 import { createConnection } from "node:net"
 import { homedir } from "node:os"
 import { join as pathJoin } from "node:path"
-import { readdirSync, readFileSync, statSync } from "node:fs"
+import { readdirSync, readFileSync, statSync, existsSync } from "node:fs"
 import { spawnSync } from "node:child_process"
 import { Database } from "bun:sqlite"
 import type { Plugin } from "@opencode-ai/plugin"
@@ -41,6 +41,13 @@ function sendEnvelope(
   envelope: Record<string, unknown>,
   opts: { wait: boolean; waitTimeoutMs?: number },
 ): Promise<DaemonResponse | null> {
+  // Cheap early-exit guard: if the Moshi daemon socket does not exist on disk,
+  // the daemon isn't running. Resolve immediately to null (no dial, no socket,
+  // no subprocess spawn) so the whole plugin degrades to no-ops without any
+  // latency or error noise when Moshi is absent.
+  if (!existsSync(resolveSocketPath())) {
+    return Promise.resolve(null)
+  }
   if (moshiServerUrl && envelope.serverUrl === undefined) envelope.serverUrl = moshiServerUrl
   return new Promise((resolve) => {
     let settled = false

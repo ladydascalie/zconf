@@ -1,57 +1,8 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"model": "openrouter/deepseek/deepseek-v4-pro",
+	"model": "openrouter/deepseek/deepseek-v4-flash",
 	"small_model": "openrouter/deepseek/deepseek-v4-flash",
 	"lsp": true,
-	"agent": {
-		"conductor": {
-			"prompt": "{file:~/.config/opencode/agents/conductor.md}",
-			"model": "openrouter/deepseek/deepseek-v4-flash",
-			"mode": "primary",
-			"description": "The only agent you will interact with directly",
-			"permission": {
-				"read": "allow",
-				"edit": "deny",
-				"bash": "deny"
-			}
-		},
-		"plan": {
-			"prompt": "{file:~/.config/opencode/agents/plan.md}",
-			"model": "openrouter/deepseek/deepseek-v4-pro",
-			"variant": "think-max",
-			"mode": "subagent",
-			"description": "High-level architecture planning with max reasoning",
-			"permission": {
-				"read": "allow",
-				"edit": "deny",
-				"bash": "allow"
-			}
-		},
-		"build": {
-			"prompt": "{file:~/.config/opencode/agents/build.md}",
-			"model": "openrouter/deepseek/deepseek-v4-pro",
-			"variant": "think-high",
-			"mode": "subagent",
-			"description": "Implementation with high reasoning",
-			"permission": {
-				"read": "allow",
-				"edit": "allow",
-				"bash": "ask"
-			}
-		},
-		"task": {
-			"prompt": "{file:~/.config/opencode/agents/build.md}",
-			"model": "openrouter/deepseek/deepseek-v4-flash",
-			"variant": "think-high",
-			"mode": "subagent",
-			"description": "Fast execution for simple coding tasks",
-			"permission": {
-				"read": "allow",
-				"edit": "allow",
-				"bash": "ask"
-			}
-		}
-	},
 	"permission": {
 		"task": "allow",
 		"skill": {
@@ -95,7 +46,7 @@
 			}
 		},
 		"playwright": {
-			"enabled": true,
+			"enabled": false,
 			"type": "local",
 			"command": ["npx", "-y", "@playwright/mcp@latest"]
 		},

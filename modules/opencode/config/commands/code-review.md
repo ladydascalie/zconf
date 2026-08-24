@@ -1,5 +1,5 @@
 ---
 description: PR Review
-agent: plan
+agent: review
 ---
 review pr, read & address comments. respond & close discussions when done.
