@@ -1,7 +1,7 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"model": "openrouter/deepseek/deepseek-v4-flash",
-	"small_model": "openrouter/deepseek/deepseek-v4-flash",
+	"model": "openrouter/~deepseek/deepseek-v4-flash-latest",
+	"small_model": "openrouter/~deepseek/deepseek-v4-flash-latest",
 	"lsp": true,
 	"permission": {
 		"task": "allow",

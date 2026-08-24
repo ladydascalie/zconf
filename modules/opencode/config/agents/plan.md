@@ -1,8 +1,7 @@
 ---
 description: High-level architecture planning with max reasoning
 mode: subagent
-# model: openrouter/deepseek/deepseek-v4-pro
-model: opencode-go/ox-alpha-free
+model: openrouter/deepseek/deepseek-v4-pro
 variant: think-max
 permission:
   read: allow
