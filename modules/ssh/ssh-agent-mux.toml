@@ -1,0 +1,5 @@
+agent_sock_paths = [
+    "~/.1password/agent.sock",
+    "~/.bitwarden-ssh-agent.sock",
+]
+listen_path = "~/.ssh/ssh-agent-mux.sock"
