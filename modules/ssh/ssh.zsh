@@ -1,6 +1,5 @@
-# Use 1Password as SSH agent for everything.
-export SSH_AUTH_SOCK=~/.1password/agent.sock
-
+# Use Bitwarden as SSH agent for everything.
+export SSH_AUTH_SOCK=~/.ssh/ssh-agent-mux.sock
 
 local dir=$(dirname $0)
 

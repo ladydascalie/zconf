@@ -33,7 +33,7 @@
 		"opencode": {
 			"default_config_options": {
 				"effort": "high",
-				"model": "openrouter/deepseek/deepseek-v4-flash",
+				"model": "opencode/x-preview-f-free",
 			},
 			"favorite_config_option_values": {
 				"model": [

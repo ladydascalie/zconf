@@ -13,9 +13,3 @@ account = "B5F76D5KEBGTZEZTPROKFAH6SE"
 item = "z6bzesnrad7ui5nqtlnppc4tne"
 vault = "p4tvdpeqml232lifptwou7knfy"
 account = "B5F76D5KEBGTZEZTPROKFAH6SE"
-
-# personal
-[[ssh-keys]]
-account = "Q7QNQDITY5FTXJRAIOEYAQUFKE"
-vault = "ktz6k4tjort7bk4fsltrjsqx4a"
-
