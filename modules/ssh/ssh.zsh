@@ -1,5 +1,5 @@
-# Use ssh-agent-mux (1Password + Bitwarden) as SSH agent for everything.
-export SSH_AUTH_SOCK=~/.ssh/ssh-agent-mux.sock
+# Use the 1Password SSH agent for everything.
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
 local dir=$(dirname $0)
 
@@ -7,30 +7,21 @@ local dir=$(dirname $0)
 local agent_toml=$dir/agent.toml
 local agent_toml_symlink=$HOME/.config/1Password/ssh/agent.toml
 
-# Symlink ssh-agent-mux config
-local mux_toml=$dir/ssh-agent-mux.toml
-local mux_toml_symlink=$HOME/.config/ssh-agent-mux/ssh-agent-mux.toml
+local toml=$agent_toml
+local symlink=$agent_toml_symlink
 
-for pair in \
-	"$agent_toml:$agent_toml_symlink" \
-	"$mux_toml:$mux_toml_symlink"
-do
-	local toml=${pair%%:*}
-	local symlink=${pair#*:}
+mkdir -p $(dirname $symlink)
 
-	mkdir -p $(dirname $symlink)
-
-	if [ -L $symlink ] && [ "$(readlink $symlink)" = "$toml" ]; then
-		_dbg "module(ssh) ~> $symlink already symlinked, nothing to do."
-	elif [ -e $symlink ]; then
-		_dbg "module(ssh) ~> $symlink exists but is not our symlink. replacing."
-		rm $symlink
-		ln -s $toml $symlink
-	else
-		_dbg "module(ssh) ~> symlinking $toml to $symlink"
-		ln -s $toml $symlink
-	fi
-done
+if [ -L $symlink ] && [ "$(readlink $symlink)" = "$toml" ]; then
+	_dbg "module(ssh) ~> $symlink already symlinked, nothing to do."
+elif [ -e $symlink ]; then
+	_dbg "module(ssh) ~> $symlink exists but is not our symlink. replacing."
+	rm $symlink
+	ln -s $toml $symlink
+else
+	_dbg "module(ssh) ~> symlinking $toml to $symlink"
+	ln -s $toml $symlink
+fi
 local allowed_signers_template=$dir/allowed_signers.tpl
 local allowed_signers_output=$HOME/.ssh/allowed_signers
 

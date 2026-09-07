@@ -1,1 +1,1 @@
-paru -S --needed 1password 1password-cli ssh-agent-mux
+paru -S --needed 1password 1password-cli
