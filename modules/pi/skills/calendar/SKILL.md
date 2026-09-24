@@ -51,6 +51,11 @@ khal list 2027-03-01 2027-03-24
 
 The generator walks up from its own location to find the vault, so it runs from anywhere.
 
+> **Sync is manual by choice.** There is no systemd timer or cron for `vdirsyncer` — the packaged
+> `vdirsyncer.timer` is left disabled deliberately. Don't enable or add one unless asked. Consequence:
+> after regenerating you **must** run `vdirsyncer sync <pair>`, and phone-side edits only show up in
+> khal once a sync has happened.
+
 ### Table format
 
 ```
