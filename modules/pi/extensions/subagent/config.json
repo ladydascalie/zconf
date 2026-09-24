@@ -1,0 +1,8 @@
+{
+  "artifactDir": "project",
+  "agentOverrides": {
+    "reviewer": {
+      "disabled": true
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "lastChangelogVersion": "0.87.1",
+  "shellPath": "/usr/bin/zsh",
+  "theme": "catppuccin-mocha",
+  "defaultProvider": "openrouter",
+  "defaultModel": "deepseek/deepseek-v4.1-flash",
+  "packages": [
+    "npm:pi-subagents",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:@narumitw/pi-btw",
+    "npm:@sherif-fanous/pi-catppuccin",
+    "npm:tau-mirror",
+    "npm:pi-goal-x",
+    "npm:diffing",
+    "npm:pi-open-tui"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "reviewer": {
+        "thinking": "high"
+      },
+      "harsh-review": {
+        "thinking": "high"
+      },
+      "worker": {
+        "thinking": "high"
+      },
+      "scout": {
+        "thinking": "low"
+      },
+      "planner": {
+        "thinking": "max"
+      }
+    }
+  },
+  "markdown": {
+    "mermaid": "streaming"
+  },
+  "hideThinkingBlock": true,
+  "tuiMode": "regular"
+}

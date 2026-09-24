@@ -7,22 +7,25 @@
 # Deliberately NOT versioned here:
 #   auth.json                        secrets
 #   memory/, memory-archive/         data, versioned in its own repo
-#   settings.json                    pi rewrites it (packages, lastChangelogVersion)
 #   extensions/herdr-agent-state.ts  managed by herdr, overwritten on update
-#   extensions/subagent/config.json  managed by the pi-subagents extension
 #   skills/diffing-*                 managed by `diffing setup` (into ~/.agents/skills)
+#
+# settings.json is safe to link: pi persists it with an in-place writeFileSync,
+# never a rename, so the symlink survives its writes.
 
 local dir=${0:A:h}
 local pi_dir="$HOME/.pi/agent"
 
 local -a items=(
 	AGENTS.md
+	settings.json
 	agents
 	prompts
 	skills/memory-keeping
 	skills/spec-keeping
 	extensions/memory-check.ts
 	extensions/fleet-web
+	extensions/subagent
 )
 
 for item in $items; do
