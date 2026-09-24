@@ -65,7 +65,7 @@ a new fact goes and how to find one.
 - `REFERENCE.md` § go-backend schema & layout — `1_ddl.up.sql` is the living DDL, `mage dev:ddl`, `api/<name>http` layout
 - `REFERENCE.md` § Go lessons — chi middleware/URL params, ULID base32, RowsAffected, txdb leases, fiber→chi parity
 - `REFERENCE.md` § Laravel / php-backend — `.env` failure modes (FIFO / 0600 / truncated), valkey vs redis
-- `REFERENCE.md` § apidog — wholesale-replace semantics, scenario short/long type forms, project ids
+- `REFERENCE.md` § apidog — **the API contract source of truth, always** (read it, never infer from handler code); wholesale-replace semantics, scenario short/long type forms, project ids
 - `REFERENCE.md` § pi / tooling — fleet-web, bash `pkill`, diffing `plans.json` recovery
 - `REFERENCE.md` § Personal projects — ladydascalie.github.io, Japan2027, Siralim/Steam Deck, PR-814
 - `SCRATCHPAD.md` — open follow-ups; read it when planning work
