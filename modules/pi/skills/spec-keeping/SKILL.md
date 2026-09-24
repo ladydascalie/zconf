@@ -95,6 +95,39 @@ pick the work up mid-flight.
 - Same anti-rules as everything else: checkboxes and markdown only, no
   tooling, no status automation.
 
+### Hand-offs across repos
+
+When a topic spans repos, the tasks file is the shared interface. Add a
+`## Handoff` block near the top for as long as a boundary is live:
+
+- `From:` repo @ branch (PR) and `To:` repo — direction is explicit.
+- `State:` `blocked` | `ready` | `consumed`. Only `ready` means the consumer
+  may start; say what it may rely on next.
+- `Contract:` the apidog endpoint(s), or "no contract change". Never restate
+  the field list — apidog owns it. The block carries what apidog cannot: which
+  branch it is on, and what is deliberately unspecified.
+- `Ready means:` the guarantee the consumer can depend on.
+- `Not in contract:` what is explicitly not promised, so the consumer stops
+  guessing.
+- `Fixtures:` game/template ids, flags, or endpoints needed to exercise it.
+- `Findings back:` the return path. The consumer appends discoveries — a bug,
+  a contract mismatch, a blocker — as `[ ]` lines here. **A finding is written
+  where the producer will read it, not in the consumer's scratchpad.**
+
+Update the block in the same effort as the state changes; delete it once the
+boundary is done (`consumed`, no open findings). A topic that spans repos has
+**one** tasks file with one Handoff block — a second per-repo copy is the drift
+this convention exists to prevent, because the copies diverge exactly where the
+hand-off matters.
+
+The README **In flight** line names the repo that owns the next action and the
+direction, so `rg <repo>` finds hand-offs both ways:
+
+```
+- changes/<topic>.tasks.md — → ll-frontend: consume reward_id/count (PR #828 awaiting merge)
+- changes/<topic>.tasks.md — ← go-backend: fix publisher-scoped reward reads (frontend blocked)
+```
+
 ## Keeping specs alive
 
 - If work contradicts a spec, update the spec **in the same effort** — state

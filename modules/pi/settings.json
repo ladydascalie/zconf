@@ -17,20 +17,11 @@
   ],
   "subagents": {
     "agentOverrides": {
-      "reviewer": {
-        "thinking": "high"
-      },
-      "harsh-review": {
-        "thinking": "high"
-      },
       "worker": {
         "thinking": "high"
       },
       "scout": {
         "thinking": "low"
-      },
-      "planner": {
-        "thinking": "max"
       }
     }
   },
