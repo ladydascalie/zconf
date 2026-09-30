@@ -1,0 +1,16 @@
+[Unit]
+Description=pi-devtasks daemon (devd) — supervises local dev processes
+Documentation=https://github.com/OWNER/pi-devtasks
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/zconf/modules/pi/extensions/devtasks/bin/devd
+Restart=on-failure
+RestartSec=2
+# The daemon owns child dev servers; stop them with the unit.
+KillMode=mixed
+TimeoutStopSec=15
+
+[Install]
+WantedBy=default.target

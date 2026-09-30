@@ -1,0 +1,13 @@
+{
+  "name": "pi-devtasks",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Supervised local dev processes for a pi session: start/stop/status/logs plus a loopback web UI.",
+  "pi": {
+    "extensions": ["./index.ts"]
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
+}
