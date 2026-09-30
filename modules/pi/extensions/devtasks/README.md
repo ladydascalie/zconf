@@ -72,4 +72,6 @@ node --experimental-strip-types --test test/*.test.ts
 - A daemon restart does not re-adopt running children; recorded process groups
   from an unclean shutdown are killed on next start.
 - No repo add/remove UI yet — a repo is registered by running pi there once.
-- Notifications (`notify`) default on; per-task opt-out is honoured from config.
+- Transitions (ready/failed/exited) append a transcript note but never start a
+  model turn; `notify` per task opts out. Deliberate stops and the stop caused
+  by `/reload` are not reported to the model.

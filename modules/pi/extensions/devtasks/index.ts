@@ -39,6 +39,7 @@ export default function devtasksExtension(pi: ExtensionAPI) {
   const pending = new Map<string, Transition>();
   const suppressedTasks = new Set<string>();
   let flushTimer: NodeJS.Timeout | undefined;
+  let shuttingDown = false;
 
   function requireBackend(): Backend {
     if (!backend) {
@@ -94,10 +95,9 @@ export default function devtasksExtension(pi: ExtensionAPI) {
     if (!activeCtx || !activeCtx.isIdle() || pending.size === 0) return;
     const items = [...pending.values()];
     pending.clear();
-    pi.sendMessage(
-      { customType: "pi-devtasks", display: true, content: items.map(describeTransition).join("\n") },
-      { triggerTurn: true },
-    );
+    // No triggerTurn: a dev-process transition is a note, not a reason to spend
+    // a model turn on its own.
+    pi.sendMessage({ customType: "pi-devtasks", display: true, content: items.map(describeTransition).join("\n") });
   }
 
   function scheduleFlush(delay = 300): void {
@@ -107,6 +107,9 @@ export default function devtasksExtension(pi: ExtensionAPI) {
 
   function onTransition(transition: Transition): void {
     void updateStatus();
+    // Reload/shutdown stops tasks; that is not news, and a deliberate stop is
+    // never something to tell the model about.
+    if (shuttingDown || transition.kind === "stopped") return;
     if (suppressedTasks.has(transition.task)) return;
     pending.set(transition.task, transition);
     if (activeCtx?.isIdle()) scheduleFlush();
@@ -367,10 +370,12 @@ export default function devtasksExtension(pi: ExtensionAPI) {
 
   pi.on("session_start", async (_event, ctx) => {
     activeCtx = ctx;
+    shuttingDown = false;
     await startBackend(ctx);
   });
 
   pi.on("session_shutdown", async () => {
+    shuttingDown = true;
     if (flushTimer) {
       clearTimeout(flushTimer);
       flushTimer = undefined;
