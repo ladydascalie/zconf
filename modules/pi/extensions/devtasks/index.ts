@@ -76,18 +76,22 @@ export default function devtasksExtension(pi: ExtensionAPI) {
   }
 
   async function updateStatus(): Promise<void> {
-    if (!activeCtx?.hasUI || !backend) return;
+    if (!activeCtx?.hasUI) return;
+    if (!backend) {
+      activeCtx.ui.setStatus("pi-devtasks", undefined);
+      return;
+    }
     try {
       lastSnapshots = await backend.status();
     } catch {
       return;
     }
     const running = lastSnapshots.filter((snapshot) => snapshot.state !== "stopped");
-    if (running.length === 0) {
-      activeCtx.ui.setStatus("pi-devtasks", undefined);
-      return;
-    }
-    activeCtx.ui.setStatus("pi-devtasks", running.map((snapshot) => `${snapshot.name}:${snapshot.state}`).join(" "));
+    const parts: string[] = [];
+    // URL first so a truncated status bar keeps the link, not the task list.
+    if (backend.pageUrl) parts.push(backend.pageUrl);
+    if (running.length) parts.push(running.map((snapshot) => `${snapshot.name}:${snapshot.state}`).join(" "));
+    activeCtx.ui.setStatus("pi-devtasks", parts.length ? parts.join("  ·  ") : undefined);
   }
 
   function flush(): void {
