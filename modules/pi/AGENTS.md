@@ -50,7 +50,7 @@ Banned prefixes: Find, Fetch, One, Pick, Select, All, Create, Add, Change, Set, 
 - **Subagents/lanes must NEVER commit.** The user reviews and approves all code first. A lane delivers uncommitted changes plus a report; the parent session commits only after approval.
 - **Tool discipline**: use the strongest available primitive and never author throwaway scripts. Files → `read`; JSON → `jq`; curl queries → `-G --data-urlencode`; typed tools over parsing CLI dumps; a one-off filter stays a single inline `jq` in the same bash call.
 - The diffing skills under `~/.pi/agent/skills/` are vendor-managed symlinks into `~/.agents/skills/` — do not edit them.
-- **Specs** live in `~/openspec/plans` (`specs/` = accepted truth, `changes/` = drafts and tasks files). Use the `spec-keeping` skill for the loop, the closeout trigger, and how to find one.
+- **Specs** live in `~/openspec/plans` (`specs/` = accepted truth, `changes/` = drafts and tasks files). Use the `spec-keeping` skill for the loop, the closeout trigger, and how to find one. **Default to submitting a draft spec to diffing (`diffing_plan_submit`) rather than chat-only review** — share the plan URL and park; revise under the same plan id on feedback.
 
 ## Workflow mechanics
 - **diffing**: the MCP tools are loaded in pi, so the "Send to agent" baton fires. A handoff carries `decision` (approved | changes-requested | rejected | comment-only) and `mode` (`comment-only` = reply only, no file edits; `standard` = edits allowed), a `<general-comment>`, and EVERY threaded comment **including resolved ones with full history** — an await is a replay, not a delta, so act only on `status="open"`. Serialize replies and resolves: concurrent writes have corrupted `plans.json`.
@@ -68,6 +68,7 @@ a new fact goes and how to find one.
 - `REFERENCE.md` § apidog — **the API contract source of truth, always** (read it, never infer from handler code); wholesale-replace semantics, scenario short/long type forms, project ids
 - `REFERENCE.md` § pi / tooling — fleet-web, bash `pkill`, diffing `plans.json` recovery
 - `REFERENCE.md` § Personal projects — ladydascalie.github.io, Japan2027, Siralim/Steam Deck, PR-814
+- `REFERENCE.md` § Host / desktop (daemonking) — UFW no-log drops (53317=LocalSend, Syncthing), NVIDIA Wayland pageflip stutters, btrfs false-positive counter
 - `SCRATCHPAD.md` — open follow-ups; read it when planning work
 - `daily/<date>.md` — chronology; `rg` it for "when did we…"
 - `~/openspec/plans/README.md` — the spec index

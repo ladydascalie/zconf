@@ -95,10 +95,33 @@ Rows only parse if they match all six columns, so prose and other tables are ign
 | Prompted to create the collection | Same as above. **Answer no**, fix `collections`, re-discover |
 | Events in iCloud, nothing in `khal` | Stale cache: `rm ~/.cache/khal/khal.db` |
 | Event deleted and recreated | Its date or time changed — that's the UID |
-| `[palette]` rejected | Only the 16 ANSI names; no hex, and `gray` not `grey` |
-| Config value read as a list | A comma needs quoting, or configobj splits it |
+| `[palette]` rejected | Entries take **2, 3 or 5** fields, **never 4**: `fg, bg, mono, fg_high, bg_high`. Fields 1–2 are ANSI names only — `gray` not `grey`, `dark cyan` not `cyan`. Fields 4–5 are unvalidated and take `#RRGGBB` (quoted), `h0`–`h255`, `g50`. A one-word colour still needs its comma: `key = dark red` is **1** field and fails with a misleading "must be of length, 2, 3, or 5" — write `dark red, ""` |
+| Config value read as a list | A comma needs quoting, or configobj splits it — including the `#` in a hex colour, which would otherwise start a comment |
 | `frame = True` | Invalid — `False` \| `width` \| `color` \| `top` |
 | `firstweekday` ignored | It lives in `[locale]`; there is **no `[settings]` section** |
+| A `[palette]` key seems ignored | Keys aren't validated, and upstream has name mismatches: the code asks for `button focus`, `edit focused`, `popupbg focus`, `editor`, `editor focus` and `date`, while the built-in themes ship the **typo'd** `button focused` and `edit focus` (and neither atom for the editor pane). Style the name the *code* uses — check `ui/*.py`, not `colors.py` |
+| `calendar` / `popupbg` palette keys change nothing | `_add_calendar_colors` builds `calendar <name>` from the *built-in* theme **before** the config palette is merged. Event colours come from `[calendars] color`, which takes an ANSI name, a `0`–`255` index, or a quoted `#RRGGBB` |
+
+### `[palette]` semantics
+
+The 2-field form is enough on a Catppuccin terminal because urwid falls back `fg_high → fg`, and a
+standard colour name in the high slot still emits an **ANSI** code (`foreground_basic`), so the
+terminal's own palette — i.e. Mocha — resolves it. Consequence: the look silently changes with the
+terminal theme. Pinning `'#bac2de', '#1e1e2e'` in the 5-field form is the only way to be
+terminal-independent. Verify a change with `khal printcalendars`, then read the real SGR codes
+(`tmux capture-pane -e`) — the palette merges after the calendar colours, so some keys are inert.
+
+Field 3 is the **mono** slot — it only applies on a 1-colour terminal, so a `bold` there is inert on
+a colour one (the built-in themes use it and it does nothing). Modifiers belong in fields 4–5:
+`'light gray,bold'` gives bold + the terminal's light gray, `'#bac2de,bold'` gives bold + that exact
+colour. Separately, `bold_for_light_color = true` makes urwid emit bright ANSI names 8–15 as
+`1;30`–`1;37`, which is why `dark gray` renders bold-black.
+
+The event list's day-header rows are `date header` / `date header focused` / `date header selected`
+(set by `DateListBox.render`); `date` is only the transient reset state written by `DListBox.clean()`.
+Style all four or the row changes look as focus moves. **Do not** read boldness off
+`tmux capture-pane -e` by looking for `1m`: it emits *incremental* SGR, so a surviving bold shows up
+as a **missing** `0m` reset rather than a fresh `1m`. A/B the same row against the unmodified config.
 
 ## Config outside any vault
 
