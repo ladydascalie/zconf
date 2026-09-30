@@ -18,10 +18,11 @@ export function renderPage(token: string): string {
     --ok: #3fb950; --warn: #d29922; --bad: #f85149; --accent: #58a6ff;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; display: flex; flex-direction: column; overflow: hidden; }
   header {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-    padding: 12px 18px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 2;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 0 0 auto;
+    padding: 12px 18px; border-bottom: 1px solid var(--border); background: var(--bg); z-index: 2;
   }
   header h1 { font-size: 15px; margin: 0; font-weight: 600; }
   .spacer { flex: 1; }
@@ -34,19 +35,19 @@ export function renderPage(token: string): string {
   .toggle button:first-child { border-radius: 7px 0 0 7px; }
   .toggle button:last-child { border-radius: 0 7px 7px 0; }
   .toggle button.active { color: var(--accent); border-color: var(--accent); }
-  main { padding: 18px; max-width: 1800px; margin: 0 auto; }
-  main.columns { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); align-items: start; }
-  main.tabs { display: block; }
-  .repo { background: transparent; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .repo-head { display: flex; align-items: center; gap: 8px; padding: 9px 13px; background: #12151b; border-bottom: 1px solid var(--border); }
+  main { padding: 14px 18px; max-width: 1800px; width: 100%; margin: 0 auto; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+  main.columns { display: grid; gap: 14px; height: 100%; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); grid-auto-rows: minmax(160px, 1fr); align-items: stretch; overflow: auto; }
+  main.tabs { display: block; height: 100%; }
+  .repo { background: transparent; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; min-height: 0; height: 100%; }
+  .repo-head { display: flex; align-items: center; gap: 8px; padding: 9px 13px; background: #12151b; border-bottom: 1px solid var(--border); flex: 0 0 auto; }
   .repo-label { font-weight: 600; }
   .repo-state { color: var(--muted); font-size: 12px; margin-left: auto; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
   .dot.on { background: var(--ok); }
   .dot.off { background: var(--bad); }
-  .tasks { padding: 10px; display: grid; gap: 10px; }
-  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; }
-  .row { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  .tasks { padding: 10px; display: flex; flex-direction: column; gap: 10px; flex: 1 1 auto; min-height: 0; overflow: auto; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; display: flex; flex-direction: column; flex: 1 1 0; min-height: 150px; }
+  .row { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border-bottom: 1px solid var(--border); flex: 0 0 auto; }
   .row .spacer { flex: 1; }
   .name { font-weight: 600; }
   .cmd { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -57,8 +58,8 @@ export function renderPage(token: string): string {
   button.act { background: #1f2430; color: var(--text); border: 1px solid var(--border); border-radius: 7px; padding: 4px 10px; cursor: pointer; font-size: 12px; }
   button.act:hover { border-color: var(--accent); color: var(--accent); }
   button.act:disabled { opacity: .5; cursor: default; }
-  .meta { padding: 7px 12px; color: var(--muted); font-size: 12px; min-height: 18px; }
-  pre.log { margin: 0; padding: 11px 12px; background: #0b0d11; color: #c9d1d9; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; max-height: 320px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
+  .meta { padding: 7px 12px; color: var(--muted); font-size: 12px; min-height: 18px; flex: 0 0 auto; }
+  pre.log { margin: 0; padding: 11px 12px; background: #0b0d11; color: #c9d1d9; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; flex: 1 1 auto; min-height: 60px; overflow: auto; white-space: pre-wrap; word-break: break-word; }
   pre.log:empty::before { content: "no output yet"; color: var(--muted); }
   .empty { color: var(--muted); padding: 12px; }
 </style>
@@ -126,7 +127,8 @@ function ensureLogs(repo, task) {
   state.loaded.add(key);
   api("/api/logs?repo=" + encodeURIComponent(repo) + "&task=" + encodeURIComponent(task) + "&lines=200")
     .then((data) => {
-      state.logs.set(key, data.lines.map(stripAnsi).join("\\n"));
+      const backlog = data.lines.map(stripAnsi).join("\\n");
+      state.logs.set(key, backlog ? backlog + "\\n" : "");
       const pane = document.querySelector('pre.log[data-key="' + CSS.escape(key) + '"]');
       if (pane) { pane.textContent = state.logs.get(key) + "\\n"; pane.scrollTop = pane.scrollHeight; }
     })
