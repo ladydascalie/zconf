@@ -75,3 +75,6 @@ node --experimental-strip-types --test test/*.test.ts
 - Transitions (ready/failed/exited) append a transcript note but never start a
   model turn; `notify` per task opts out. Deliberate stops and the stop caused
   by `/reload` are not reported to the model.
+- The daemon serves the page from the code it loaded at start-up, so a running
+  daemon shows the old UI until it is restarted (a restart also restarts its
+  tasks).
