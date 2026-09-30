@@ -8,6 +8,7 @@
 
 import { startDaemon } from "./daemon-server.ts";
 import { daemonHost, daemonPort, daemonSocketPath, loadOrCreateToken } from "./daemon-paths.ts";
+import { stateDir } from "./registry.ts";
 
 const port = daemonPort();
 const host = daemonHost();
@@ -25,7 +26,12 @@ try {
   process.exit(1);
 }
 
-process.stderr.write(`pi-devtasks daemon listening on ${daemon.url} (socket ${socketPath})\n`);
+process.stderr.write(
+  `pi-devtasks daemon ready\n` +
+    `  page:   ${daemon.displayUrl}\n` +
+    `  socket: ${socketPath}\n` +
+    `  state:  ${stateDir()}\n`,
+);
 
 let stopping = false;
 async function stop(): Promise<void> {

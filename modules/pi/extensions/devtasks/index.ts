@@ -159,8 +159,10 @@ export default function devtasksExtension(pi: ExtensionAPI) {
           unsubscribe();
         },
       };
+      const link = daemonUrl();
       await updateStatus();
-      if (ctx.hasUI) ctx.ui.notify(`pi-devtasks (daemon): ${daemonUrl()}`, "info");
+      if (ctx.hasUI) ctx.ui.notify(`pi-devtasks daemon: ${link}`, "info");
+      else process.stderr.write(`pi-devtasks daemon: ${link}\n`);
       return true;
     } catch {
       return false;
@@ -306,10 +308,8 @@ export default function devtasksExtension(pi: ExtensionAPI) {
           return;
         }
         const snapshots = await backend.status();
-        ctx.ui.notify(
-          snapshots.length ? snapshots.map((s) => `${s.name}: ${s.state}`).join("\n") : "No dev tasks configured",
-          "info",
-        );
+        const tasks = snapshots.length ? snapshots.map((s) => `${s.name}: ${s.state}`).join("\n") : "No dev tasks configured";
+        ctx.ui.notify(backend.pageUrl ? `${tasks}\n\npage: ${backend.pageUrl}` : tasks, "info");
         return;
       }
 
