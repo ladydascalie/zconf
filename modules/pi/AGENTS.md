@@ -13,6 +13,7 @@ Detail lives in `~/.pi/agent/memory/` — see § Memory store.
   - Don't: `func b(ap AllParams)` (context and infrastructure must stay separate and explicit)
   - Do: `func c(ctx context.Context, db *sqlx.DB, name string)`
   - Don't: `func d(context.Context, *sqlx.DB, string, string, int)` (too many loose parameters — group the unrelated ones)
+- No ceremonial comments: no decorative section dividers (`/* ── Foo ── */`, `// ─── Foo ───`) and no narrative banners that explain what a block does. aislop's narrative-comment rule flags these as AI slop.
 
 ## Go code review
 When reviewing Go code, follow the Go wiki's Code Review Comments guidelines: https://go.dev/wiki/CodeReviewComments
@@ -47,6 +48,7 @@ Banned prefixes: Find, Fetch, One, Pick, Select, All, Create, Add, Change, Set, 
 - devenv: podman compose runs `dev-mysql` (mysql:8, :3306, db `game_backend`), `dev-php-backend` and `valkey`. A DB "connection refused" means the stack is stopped → `podman start dev-mysql`. go-backend **integration tests** instead use `MYSQL_URL` from `infrastructure/test.local.env` (random port written by `mage test:up`).
 
 ## Working rules
+- **Pair programming: smallest reviewable changeset.** Do not batch unrelated fixes into one commit or PR. Land one concern at a time, summarise the diff, and hand it to the user for review before starting the next — never run ahead unprompted. When the user says "we're pair programming", treat each step as one small reviewable change, not a march to the destination.
 - **Subagents/lanes must NEVER commit.** The user reviews and approves all code first. A lane delivers uncommitted changes plus a report; the parent session commits only after approval.
 - **Tool discipline**: use the strongest available primitive and never author throwaway scripts. Files → `read`; JSON → `jq`; curl queries → `-G --data-urlencode`; typed tools over parsing CLI dumps; a one-off filter stays a single inline `jq` in the same bash call.
 - The diffing skills under `~/.pi/agent/skills/` are vendor-managed symlinks into `~/.agents/skills/` — do not edit them.
@@ -64,11 +66,12 @@ a new fact goes and how to find one.
 
 - `REFERENCE.md` § go-backend schema & layout — `1_ddl.up.sql` is the living DDL, `mage dev:ddl`, `api/<name>http` layout
 - `REFERENCE.md` § Go lessons — chi middleware/URL params, ULID base32, RowsAffected, txdb leases, fiber→chi parity
+- `REFERENCE.md` § Testing — a test double's defaults can mirror the bug; WebAuthn authenticator flags (BE/BS/UV/UP) must round-trip; log ceremony failures
 - `REFERENCE.md` § Laravel / php-backend — `.env` failure modes (FIFO / 0600 / truncated), valkey vs redis
 - `REFERENCE.md` § apidog — **the API contract source of truth, always** (read it, never infer from handler code); wholesale-replace semantics, scenario short/long type forms, project ids
 - `REFERENCE.md` § pi / tooling — fleet-web, bash `pkill`, diffing `plans.json` recovery
 - `REFERENCE.md` § Personal projects — ladydascalie.github.io, Japan2027, Siralim/Steam Deck, PR-814
-- `REFERENCE.md` § Host / desktop (daemonking) — UFW no-log drops (53317=LocalSend, Syncthing), NVIDIA Wayland pageflip stutters, btrfs false-positive counter
+- `REFERENCE.md` § Host / desktop (daemonking) — UFW no-log drops (53317=LocalSend, Syncthing), KWin Overview hot-corner GL stutter, NVIDIA pageflip stall, btrfs false-positive counter
 - `SCRATCHPAD.md` — open follow-ups; read it when planning work
 - `daily/<date>.md` — chronology; `rg` it for "when did we…"
 - `~/openspec/plans/README.md` — the spec index
