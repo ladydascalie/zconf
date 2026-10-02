@@ -5,7 +5,6 @@
 [core]
         editor = vim
         excludesfile = ~/.gitignore
-	fsmonitor = true
 [init]
         defaultBranch = main
 [commit]
