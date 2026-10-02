@@ -10,7 +10,6 @@
     "npm:@juicesharp/rpiv-todo",
     "npm:@narumitw/pi-btw",
     "npm:@sherif-fanous/pi-catppuccin",
-    "npm:tau-mirror",
     "npm:pi-goal-x",
     "npm:diffing",
     "npm:pi-open-tui"
@@ -29,5 +28,5 @@
     "mermaid": "streaming"
   },
   "hideThinkingBlock": true,
-  "tuiMode": "regular"
+  "tuiMode": "fullscreen"
 }
