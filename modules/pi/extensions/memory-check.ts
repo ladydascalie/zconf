@@ -4,7 +4,7 @@
  * Read-only checks over the memory store and the spec library, run once at
  * session start and reported into the system prompt. Silent when clean.
  *
- * Why this exists: the rules in ~/.pi/agent/AGENTS.md and the skills are
+ * Why this exists: the rules in each harness's `AGENTS.md` and the skills are
  * otherwise unenforced, and a stale or overgrown always-injected file misleads
  * every session. This has no authority by design — it never blocks a tool call,
  * a session switch, or a commit. It reports, and nothing more.
@@ -19,10 +19,11 @@ import * as os from "node:os";
 import * as path from "node:path";
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
-const AGENT_DIR = path.join(os.homedir(), ".pi", "agent");
-const AGENTS_MD = path.join(AGENT_DIR, "AGENTS.md");
+const CORES = [
+	{ label: "~/.pi/agent/AGENTS.md", file: path.join(os.homedir(), ".pi", "agent", "AGENTS.md") },
+	{ label: "~/.config/delta/AGENTS.md", file: path.join(os.homedir(), ".config", "delta", "AGENTS.md") },
+];
 const MEMORY_DIR = path.join(os.homedir(), ".agents", "memory");
-const REFERENCE_MD = path.join(MEMORY_DIR, "REFERENCE.md");
 const PLANS_DIR = path.join(os.homedir(), "openspec", "plans");
 const CORE_BUDGET_BYTES = 10 * 1024;
 const STALE_TASKS_DAYS = 7;
@@ -81,31 +82,42 @@ async function runCheck(
 	}
 }
 
-/** 1. The injected core has a budget. Growth is only visible if something looks. */
+/** 1. Each injected core has a budget. Growth is only visible if something looks. */
 function checkCoreSize(findings: string[]): void {
-	const stat = fs.statSync(AGENTS_MD);
-	if (stat.size > CORE_BUDGET_BYTES) {
-		const kb = (stat.size / 1024).toFixed(1);
-		findings.push(
-			`AGENTS.md is ${kb} KB, over the ~10 KB budget — move a whole section to memory/REFERENCE.md and leave one pointer line.`,
-		);
+	for (const core of CORES) {
+		let size: number;
+		try {
+			size = fs.statSync(core.file).size;
+		} catch {
+			continue; // harness not installed on this machine
+		}
+		if (size > CORE_BUDGET_BYTES) {
+			const kb = (size / 1024).toFixed(1);
+			findings.push(
+				`${core.label} is ${kb} KB, over the ~10 KB budget — move a whole section to memory/REFERENCE.md and leave one pointer line.`,
+			);
+		}
 	}
 }
 
 /** 2. A pointer that does not resolve is a manifest that lies. */
 function checkPointers(findings: string[]): void {
-	const agents = readIfFile(AGENTS_MD) ?? "";
-	const reference = readIfFile(REFERENCE_MD) ?? "";
-	const headings = new Set(
-		reference
-			.split("\n")
-			.filter((line) => line.startsWith("## "))
-			.map((line) => line.slice(3).trim()),
-	);
-	for (const match of agents.matchAll(/`REFERENCE\.md`\s*§\s*(.+?)\s+(?:—|--)/g)) {
-		const section = match[1].trim();
-		if (!headings.has(section)) {
-			findings.push(`Manifest points at REFERENCE.md § ${section}, which has no such heading.`);
+	for (const core of CORES) {
+		const agents = readIfFile(core.file) ?? "";
+		for (const line of agents.split("\n")) {
+			if (!line.includes("§")) continue; // only § lines carry a section pointer
+			const file = line.match(/`([A-Za-z0-9._-]*\.md)`/)?.[1];
+			if (!file) continue;
+			const section = line
+				.replace(/^.*§\s*/, "")
+				.replace(/\s+(?:—|--).*$/, "")
+				.trim();
+			const body = readIfFile(path.join(MEMORY_DIR, file));
+			if (body === undefined) {
+				findings.push(`${core.label} names ${file}, which does not exist in the store.`);
+			} else if (section && !body.split("\n").includes(`## ${section}`)) {
+				findings.push(`${core.label} points at ${file} § ${section}, which has no such heading.`);
+			}
 		}
 	}
 
