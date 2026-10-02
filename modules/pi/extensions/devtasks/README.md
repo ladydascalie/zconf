@@ -1,14 +1,11 @@
 # pi-devtasks
 
 Supervises a repo's long-running local dev commands (`mise run dev`, `go run .`,
-`npm run dev`) and shows their live output in one web page.
+`npm run dev`) in a **herdr pane**, in a dedicated `devtasks` workspace. herdr
+owns the process, so tasks outlive pi; there is no server, token or daemon.
 
-Two modes:
-
-- **daemon** (`devd`) — a long-lived process that owns the tasks. One permanent
-  page, tasks survive pi, every managed repo aggregated. Preferred.
-- **in-process** — the old behaviour: the server and children live inside a pi
-  session. Used as a fallback when the daemon is unavailable.
+The extension requires herdr (`HERDR_ENV=1`). Outside herdr the tools report
+devtasks unavailable.
 
 ## Tasks
 
@@ -16,65 +13,48 @@ Declare them in `.pi/dev.json` at the repo root (see the `devtasks-setup` skill)
 
 ```json
 {
-  "server": { "host": "127.0.0.1", "token": true },
   "tasks": {
-    "dev": { "cmd": "mise run dev", "ready": { "port": 8080 } },
+    "dev": { "cmd": "mise run dev", "ready": { "port": 8091 } },
     "worker": { "cmd": "go run ./cmd/worker", "ready": { "stdout": "worker ready" } }
   }
 }
 ```
 
 Tools: `dev_list`, `dev_start`, `dev_stop`, `dev_restart`, `dev_status`,
-`dev_logs`. Command: `/dev list|start|stop|restart|status|logs|open`.
+`dev_logs`. Command: `/dev` starts the repo's sole task; `/dev start|stop|restart|status|logs|focus [task]` (the task name is optional when only one is declared).
 
-## Run the daemon
+## Layout
 
-```bash
-# foreground
-node --experimental-strip-types daemon.ts
+One pane per repo, in a workspace labelled `devtasks` (created on first use).
+The pane runs with `--cwd` = repo root, its label is the repo slug, and its
+pane token carries `repo`/`task`/`status` so the herdr sidebar is the dashboard.
+One task runs per repo at a time; a second concurrent start is rejected. New
+panes split **side by side** (to the right); beyond four panes in the first tab,
+new repos get a second tab.
 
-# or via the wrapper
-./bin/devd
-```
+## Model
 
-The page is `http://127.0.0.1:4770/?token=<persisted token>`. The port and token
-are stable, so the URL can be bookmarked. The extension **lazily spawns** the
-daemon on first use, so the systemd unit is optional.
-
-### systemd (always on)
-
-```bash
-mkdir -p ~/.config/systemd/user
-cp systemd/pi-devtasks.service ~/.config/systemd/user/
-systemctl --user daemon-reload
-systemctl --user enable --now pi-devtasks
-```
-
-### Environment
-
-| Variable | Default | Purpose |
-|---|---|---|
-| `PI_DEV_TASKS_PORT` | `4770` | fixed page port (hard-fails if taken) |
-| `PI_DEV_TASKS_HOST` | `127.0.0.1` | bind host |
-| `PI_DEV_TASKS_SOCKET` | `$XDG_RUNTIME_DIR/pi-devtasks.sock` | control socket |
-
-State lives in `$XDG_STATE_HOME/pi-devtasks/` (`repos.json`, `running.json`,
-`daemon-token`, `daemon.log`, per-task logs).
+- `pane run` echoes the command into the pane, so a `stdout` readiness marker
+  that also appears in `cmd` matches the echo. Use a marker only the program
+  prints.
+- Liveness is polled from `pane process-info`: when the pane's foreground
+  process group is the shell again, the task has ended.
+- Stop sends Ctrl+C to the pane; if it does not settle within `stop.timeoutMs`
+  the pane is closed (and recreated on the next start).
+- Panes are not stopped on `session_shutdown` — they keep running.
 
 ## Tests
 
 ```bash
-node --experimental-strip-types --test test/*.test.ts
+node --test test/
 ```
 
-## Spike limitations
+`test/herdr.test.ts` covers the CLI envelope parsing with a fake runner;
+`test/manager.test.ts` drives the pane manager against a fake `Herdr`, so no
+live herdr session is needed.
 
-- A daemon restart does not re-adopt running children; recorded process groups
-  from an unclean shutdown are killed on next start.
-- No repo add/remove UI yet — a repo is registered by running pi there once.
+## Notes
+
 - Transitions (ready/failed/exited) append a transcript note but never start a
-  model turn; `notify` per task opts out. Deliberate stops and the stop caused
-  by `/reload` are not reported to the model.
-- The daemon serves the page from the code it loaded at start-up, so a running
-  daemon shows the old UI until it is restarted (a restart also restarts its
-  tasks).
+  model turn; `notify` per task opts out. Deliberate stops are not reported.
+- Panes on the alternate screen lose history; `dev_logs` reads the pane tail.

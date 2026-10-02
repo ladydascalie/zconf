@@ -8,9 +8,6 @@
 import fs from "node:fs";
 import path from "node:path";
 
-export const SIGNALS = ["SIGTERM", "SIGINT", "SIGKILL", "SIGHUP", "SIGQUIT"] as const;
-export type SignalName = (typeof SIGNALS)[number];
-
 export interface ReadyProbe {
   port?: number;
   stdout?: string;
@@ -19,7 +16,6 @@ export interface ReadyProbe {
 }
 
 export interface StopConfig {
-  signal: SignalName;
   timeoutMs: number;
 }
 
@@ -34,15 +30,9 @@ export interface TaskConfig {
   stop: StopConfig;
 }
 
-export interface ServerConfig {
-  host: string;
-  token: boolean;
-}
-
 export interface DevConfig {
   path: string;
   repoRoot: string;
-  server: ServerConfig;
   tasks: Map<string, TaskConfig>;
 }
 
@@ -77,11 +67,6 @@ export function loadConfig(repoRoot: string): DevConfig | undefined {
 function parseConfig(raw: unknown, file: string, repoRoot: string): DevConfig {
   if (!isObject(raw)) fail(file, "top level must be a JSON object");
 
-  const serverRaw = raw.server ?? {};
-  if (!isObject(serverRaw)) fail(file, '"server" must be an object');
-  const host = optString(serverRaw.host, "127.0.0.1", file, "server.host");
-  const token = optBool(serverRaw.token, true, file, "server.token");
-
   const tasksRaw = raw.tasks;
   if (!isObject(tasksRaw) || Object.keys(tasksRaw).length === 0) {
     fail(file, '"tasks" must be a non-empty object of task definitions');
@@ -105,7 +90,7 @@ function parseConfig(raw: unknown, file: string, repoRoot: string): DevConfig {
     });
   }
 
-  return { path: file, repoRoot, server: { host, token }, tasks };
+  return { path: file, repoRoot, tasks };
 }
 
 function parseReady(raw: unknown, file: string, name: string): ReadyProbe | undefined {
@@ -156,16 +141,11 @@ function parseReady(raw: unknown, file: string, name: string): ReadyProbe | unde
 
 function parseStop(raw: unknown, file: string, name: string): StopConfig {
   if (raw === undefined || raw === null) {
-    return { signal: "SIGTERM", timeoutMs: DEFAULT_STOP_TIMEOUT_MS };
+    return { timeoutMs: DEFAULT_STOP_TIMEOUT_MS };
   }
   if (!isObject(raw)) fail(file, `tasks.${name}.stop must be an object`);
 
-  const signal = raw.signal ?? "SIGTERM";
-  if (typeof signal !== "string" || !SIGNALS.includes(signal as SignalName)) {
-    fail(file, `tasks.${name}.stop.signal must be one of: ${SIGNALS.join(", ")}`);
-  }
   return {
-    signal: signal as SignalName,
     timeoutMs: optNumber(raw.timeoutMs, DEFAULT_STOP_TIMEOUT_MS, file, `tasks.${name}.stop.timeoutMs`),
   };
 }

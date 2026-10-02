@@ -25,8 +25,9 @@ test("parses tasks and resolves cwd", () => {
   assert.equal(dev.cwd, path.join(root, "sub"));
   assert.equal(dev.notify, true);
   assert.equal(dev.readyTimeoutMs, 60_000);
-  assert.equal(dev.stop.signal, "SIGTERM");
+  assert.equal(dev.stop.timeoutMs, 5_000);
   assert.equal(dev.ready, undefined);
+  assert.equal("server" in config, false);
 });
 
 test("rejects multiple probes", () => {
