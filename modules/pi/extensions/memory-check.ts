@@ -21,7 +21,7 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const AGENT_DIR = path.join(os.homedir(), ".pi", "agent");
 const AGENTS_MD = path.join(AGENT_DIR, "AGENTS.md");
-const MEMORY_DIR = path.join(AGENT_DIR, "memory");
+const MEMORY_DIR = path.join(os.homedir(), ".agents", "memory");
 const REFERENCE_MD = path.join(MEMORY_DIR, "REFERENCE.md");
 const PLANS_DIR = path.join(os.homedir(), "openspec", "plans");
 const CORE_BUDGET_BYTES = 10 * 1024;
@@ -169,7 +169,7 @@ function formatFindings(findings: string[]): string {
 		"## Memory check (memory-check extension, read-only)",
 		"Findings over the memory store and the spec library. Act on them, or say why not.",
 		...findings.map((finding) => `- ${finding}`),
-		"Skills: ~/.pi/agent/skills/memory-keeping/ and ~/.pi/agent/skills/spec-keeping/.",
+		"Skills: ~/.agents/skills/memory-keeping/ and ~/.agents/skills/spec-keeping/.",
 	].join("\n");
 }
 

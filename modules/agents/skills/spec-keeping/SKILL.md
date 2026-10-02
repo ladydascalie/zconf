@@ -34,26 +34,31 @@ session get this wrong without this file?* If not, don't create it.
 1. Draft in `changes/<topic>.md`: status `draft`, today's date, then the
    substance — what should be true, why, rejected alternatives, open
    questions. Short; one sitting.
-2. Show the user the draft (path, not necessarily full paste). If the
-   diffing extension is available and the user wants a richer review, offer
-   to submit it via diffing_plan_submit instead of chat review — inline
-   comments and revisions work well for spec drafts. Steer reviewers to
-   comment on the plan page (it carries the verdict and comments survive
-   revisions); inline diff comments also work but are diff-bound and get
-   split across stores. Answer/resolve comments, revise, and treat an
-   approved verdict as the go-ahead.
-   When picking up a diffing review, check BOTH stores: plan comments
-   (`diffing plan show <id> --json` in the session's repo) AND inline
-   code-review comments (`diffing comments --open`) — inline comments on
-   the diff land in the code-review store, not the plan store. The diffing
-   tools are loaded in pi, so "Send to agent" does fire: block on
-   `diffing_await_review` instead of waiting for the user to say they are
-   ready, and treat the handoff's `<general-comment>` as the prompt for
-   the round. Two handoff gotchas: every await replays the whole thread
-   history, resolved threads included, so act only on `status="open"`;
-   and honour the `mode` (`comment-only` = reply only, never edit;
-   `standard` = edits allowed). Reply and resolve serially — concurrent
-   writes to diffing's stores have corrupted its state before.
+2. Show the user the draft (path, not necessarily full paste). For a richer
+   review, use the harness's review flow rather than chat:
+   - **Delta:** review inline in the thread — keep the draft in the thread's
+     worktree, or attach the spec-library checkout (`~/openspec/plans`), so the
+     user can open the markdown, select text and leave line-anchored comments
+     (Comment Mode in the file pane). Comments arrive as threads you reply to
+     and resolve; revise in place, and treat the sign-off as the go-ahead. If
+     the user wants an isolated pass instead, `/review` opens a separate review
+     conversation whose `/approve` or `/request-changes` verdict lands back in
+     this thread. When picking up comments, act only on threads still open, and
+     honour any "comment only" instruction: reply, never edit.
+   - **pi:** if the diffing extension is available, offer to submit via
+     `diffing_plan_submit` instead of chat review — inline comments and revisions
+     work well for drafts, and comments survive revisions on the plan page. Steer
+     reviewers to comment on the plan page (it carries the verdict); inline diff
+     comments are diff-bound and get split across stores, so when picking up a
+     diffing review check BOTH the plan store (`diffing plan show <id> --json`)
+     and the code-review store (`diffing comments --open`). The diffing tools are
+     loaded in pi, so "Send to agent" does fire: block on `diffing_await_review`
+     rather than waiting to be told, and treat the handoff's `<general-comment>`
+     as the round's prompt. Every await replays the whole thread history, resolved
+     threads included, so act only on `status="open"`; honour `mode`
+     (`comment-only` = reply only, never edit; `standard` = edits allowed), and
+     reply/resolve serially — concurrent writes have corrupted diffing's state
+     before. An approved verdict is the go-ahead.
 3. On approval, promote: `mv changes/<topic>.md specs/<topic>.md`, set status
    to `accepted` with the date, and add a one-line entry to the README index.
    On rejection, discard or keep as `dropped` if it still has decision value.

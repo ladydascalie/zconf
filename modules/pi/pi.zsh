@@ -9,6 +9,8 @@
 #   memory/, memory-archive/         data, versioned in its own repo
 #   extensions/herdr-agent-state.ts  managed by herdr, overwritten on update
 #   skills/diffing-*                 managed by `diffing setup` (into ~/.agents/skills)
+#   skills/memory-keeping            shared global skills (in ~/.agents/skills)
+#   skills/spec-keeping              shared global skills (in ~/.agents/skills)
 #
 # settings.json is safe to link: pi persists it with an in-place writeFileSync,
 # never a rename, so the symlink survives its writes.
@@ -21,8 +23,6 @@ local -a items=(
 	settings.json
 	agents
 	prompts
-	skills/memory-keeping
-	skills/spec-keeping
 	extensions/memory-check.ts
 	extensions/fleet-web
 	extensions/subagent

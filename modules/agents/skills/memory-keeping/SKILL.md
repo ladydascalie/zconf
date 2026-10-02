@@ -1,6 +1,6 @@
 ---
 name: memory-keeping
-description: Maintain the durable memory store — route a new fact to the right tier, keep the injected core small, and find what is already known before starting work. Use when you learn something durable (a gotcha, a preference, a corrected assumption, a resolved blocker), when you need to recall prior context, or when ~/.pi/agent/AGENTS.md has grown.
+description: Maintain the durable memory store — route a new fact to the right tier, keep the injected core small, and find what is already known before starting work. Use when you learn something durable (a gotcha, a preference, a corrected assumption, a resolved blocker), when you need to recall prior context, or when the injected core has grown.
 ---
 
 # Memory keeping
@@ -10,12 +10,25 @@ It does not hold decisions (→ `spec-keeping`) or chronology (→ `daily/`).
 
 ## Where things live
 
+There is **one store**, `~/.agents/memory/` — a single git repo, shared by every harness
+(pi, Delta, …). Only the injected core differs, because each harness reads its own
+personal `AGENTS.md`.
+
 | Tier | Holds | File | Cost |
 |---|---|---|---|
-| Injected | invariants + the pointer manifest | `~/.pi/agent/AGENTS.md` | every session |
-| Retrieved | facts, gotchas, conventions | `~/.pi/agent/memory/REFERENCE.md` | on demand |
-| Retrieved | chronology | `~/.pi/agent/memory/daily/<date>.md` | on demand |
-| Retrieved | open follow-ups | `~/.pi/agent/memory/SCRATCHPAD.md` | on demand |
+| Injected | invariants + the pointer manifest | the harness's own `AGENTS.md` (`~/.pi/agent/AGENTS.md` for pi, `~/.config/delta/AGENTS.md` for Delta) | every session |
+| Retrieved | pi-tool facts | `~/.agents/memory/PI.md` | on demand |
+| Retrieved | Delta-tool facts | `~/.agents/memory/DELTA.md` | on demand |
+| Retrieved | facts, gotchas, conventions | `~/.agents/memory/REFERENCE.md` | on demand |
+| Retrieved | chronology | `~/.agents/memory/daily/<date>.md` | on demand |
+| Retrieved | open follow-ups | `~/.agents/memory/SCRATCHPAD.md` | on demand |
+
+**Harness-specific facts go in the harness file** (`PI.md`, `DELTA.md`) — never in the
+shared `REFERENCE.md`, and never in the injected core. The store path is defined here,
+once; every harness's manifest points at the same `~/.agents/memory/`.
+
+If the harness confines file tools to its worktree (Delta), read and edit these files
+through the terminal (`cat`, `sed`, heredoc) instead.
 
 There is **no cap and no index**. The injected file stays small by being *curated*, not truncated —
 which is the difference between a file that degrades visibly and one that silently loses its tail.
@@ -23,7 +36,7 @@ which is the difference between a file that degrades visibly and one that silent
 ## Finding things (before nontrivial work)
 
 1. The injected `AGENTS.md` carries the manifest. It names the file and the section for each area.
-2. `rg -i '<terms>' ~/.pi/agent/memory/REFERENCE.md` — search the section the manifest points at.
+2. `rg -i '<terms>' ~/.agents/memory/` — search the store (scope to one file or section when you can).
 3. Read the section. Never act on a remembered paraphrase of it.
 
 Reading the file at the moment of use is the point: **a file read on demand cannot be stale.** That is
@@ -34,10 +47,15 @@ why there is no index — there is no second copy to diverge from the truth.
 Ask once, in this order:
 
 1. **Must this be true in every session, whatever I am working on?**
-   → `AGENTS.md`. Rare: a new invariant, or an environment fact needed to interpret an error.
-2. **Is it needed only when working on X?**
+   → the harness's own `AGENTS.md`. Rare: a new invariant, or a machine/environment fact needed to
+   interpret an error.
+2. **Is it knowledge about the harness itself** — config paths, skills, profiles, worktrees, review
+   mechanics, transports, provider auth?
+   → the harness file: `PI.md` for pi, `DELTA.md` for Delta. Read only when relevant. Never fold it
+   into the core or the shared `REFERENCE.md`.
+3. **Is it needed only when working on X?**
    → `REFERENCE.md`, in X's section. Common.
-3. **Did it happen at a time?**
+4. **Did it happen at a time?**
    → `daily/<date>.md`.
 
 Then:
@@ -56,10 +74,10 @@ Then:
 
 - Budget: keep it under ~10 KB (about the size of `go-backend/AGENTS.md`). Run `wc -c` in the same edit
   that changes it — visible size is what replaces the old hard cap.
-- A read-only session-start check (`~/.pi/agent/extensions/memory-check.ts`) reports budget overruns,
-  dead manifest pointers, uncommitted stores and stale tasks files into the system prompt. It has no
-  authority to block anything — **act on its findings, or say why not.** Run `/memory-check` to trigger
-  it on demand (e.g. right after a merge lands).
+- The `memory-check` mechanism (the pi extension, or the Delta `memory-check` skill) reports budget
+  overruns, dead manifest pointers, uncommitted stores and stale tasks files. It is read-only and has no
+  authority to block anything — **act on its findings, or say why not.** Run `/memory-check` after a merge
+  lands.
 - Over budget → move a whole **section** to `REFERENCE.md` and leave one pointer line. Move sections,
   never sentences.
 - The manifest grows by **area**, not by fact. Adding a lesson does not touch the manifest. A lesson

@@ -1,7 +1,7 @@
 # Global context
 
 Rules, environment and preferences that apply in every session, whatever the working directory.
-Detail lives in `~/.pi/agent/memory/` — see § Memory store.
+Detail lives in `~/.agents/memory/` — see § Memory store.
 
 ## Code structure (language-agnostic)
 - Do not abstract code unless it's required. Abstraction should flow naturally from context and implementation, not as a pre-emptive step. No speculative interfaces, layers, or indirection "for later".
@@ -48,19 +48,20 @@ Banned prefixes: Find, Fetch, One, Pick, Select, All, Create, Add, Change, Set, 
 - devenv: podman compose runs `dev-mysql` (mysql:8, :3306, db `game_backend`), `dev-php-backend` and `valkey`. A DB "connection refused" means the stack is stopped → `podman start dev-mysql`. go-backend **integration tests** instead use `MYSQL_URL` from `infrastructure/test.local.env` (random port written by `mage test:up`).
 
 ## Working rules
-- **Pair programming: smallest reviewable changeset.** Do not batch unrelated fixes into one commit or PR. Land one concern at a time, summarise the diff, and hand it to the user for review before starting the next — never run ahead unprompted. When the user says "we're pair programming", treat each step as one small reviewable change, not a march to the destination.
+- **Pair programming is the default working mode.** Smallest reviewable changeset: do not batch unrelated fixes into one commit or PR. Land one concern at a time, summarise the diff, and hand it to the user for review before starting the next — never run ahead unprompted. Treat each step as one small reviewable change, not a march to the destination, unless the user explicitly asks for a different mode or a larger batch.
 - **Subagents/lanes must NEVER commit.** The user reviews and approves all code first. A lane delivers uncommitted changes plus a report; the parent session commits only after approval.
 - **Tool discipline**: use the strongest available primitive and never author throwaway scripts. Files → `read`; JSON → `jq`; curl queries → `-G --data-urlencode`; typed tools over parsing CLI dumps; a one-off filter stays a single inline `jq` in the same bash call.
 - The diffing skills under `~/.pi/agent/skills/` are vendor-managed symlinks into `~/.agents/skills/` — do not edit them.
-- **Specs** live in `~/openspec/plans` (`specs/` = accepted truth, `changes/` = drafts and tasks files). Use the `spec-keeping` skill for the loop, the closeout trigger, and how to find one. **Default to submitting a draft spec to diffing (`diffing_plan_submit`) rather than chat-only review** — share the plan URL and park; revise under the same plan id on feedback.
+- **Specs** live in `~/openspec/plans` (`specs/` = accepted truth, `changes/` = drafts and tasks files). Use the `spec-keeping` skill for the loop, the closeout trigger, and how to find one. **Default to submitting a draft spec to diffing (`diffing_plan_submit`) rather than chat-only review** — share the plan URL and **await the verdict (`diffing_plan_await`) rather than parking**; revise under the same plan id on feedback.
 
 ## Workflow mechanics
+- **Handoffs default to await.** After submitting a plan or handing over a code review, block on the verdict (`diffing_plan_await` / `diffing_await_review`) instead of parking — the user's reviews are synchronous by default. Park only when the user says they are stepping away, or explicitly asks you not to block.
 - **diffing**: the MCP tools are loaded in pi, so the "Send to agent" baton fires. A handoff carries `decision` (approved | changes-requested | rejected | comment-only) and `mode` (`comment-only` = reply only, no file edits; `standard` = edits allowed), a `<general-comment>`, and EVERY threaded comment **including resolved ones with full history** — an await is a replay, not a delta, so act only on `status="open"`. Serialize replies and resolves: concurrent writes have corrupted `plans.json`.
 - diffing vs hunk: diffing = the human drives live steering plus plan/mockup verdicts; hunk = a TUI where the AGENT drives the human's viewport, with no baton (must poll), no verdict, and session-bound comments.
 
 ## Memory store
 
-Durable facts live in `~/.pi/agent/memory/` — plain markdown, searched with `rg`. This file holds the
+Durable facts live in `~/.agents/memory/` — one store shared with Delta, plain markdown, searched with `rg`. This file holds the
 invariants and the manifest below; the detail is read on demand. Use the `memory-keeping` skill for where
 a new fact goes and how to find one.
 
@@ -69,7 +70,7 @@ a new fact goes and how to find one.
 - `REFERENCE.md` § Testing — a test double's defaults can mirror the bug; WebAuthn authenticator flags (BE/BS/UV/UP) must round-trip; log ceremony failures
 - `REFERENCE.md` § Laravel / php-backend — `.env` failure modes (FIFO / 0600 / truncated), valkey vs redis
 - `REFERENCE.md` § apidog — **the API contract source of truth, always** (read it, never infer from handler code); wholesale-replace semantics, scenario short/long type forms, project ids
-- `REFERENCE.md` § pi / tooling — fleet-web, bash `pkill`, diffing `plans.json` recovery
+- `PI.md` — pi-tool facts: fleet-web, bash `pkill`, diffing `plans.json` recovery, extension/session gotchas
 - `REFERENCE.md` § Personal projects — ladydascalie.github.io, Japan2027, Siralim/Steam Deck, PR-814
 - `REFERENCE.md` § Host / desktop (daemonking) — UFW no-log drops (53317=LocalSend, Syncthing), KWin Overview hot-corner GL stutter, NVIDIA pageflip stall, btrfs false-positive counter
 - `SCRATCHPAD.md` — open follow-ups; read it when planning work
