@@ -49,8 +49,10 @@ for d in "$store" "$plans"; do
   [ -z "$out" ] || { echo "GIT: $d has uncommitted changes:"; printf '%s\n' "$out"; }
 done
 
-# 5. Stale closeout — a tasks file with no open tasks, >7 days untouched
-find "$plans/changes" -maxdepth 1 -name '*.tasks.md' -mtime +7 2>/dev/null | while IFS= read -r f; do
+# 5. Stale closeout — a tasks file with no open tasks, >7 days untouched.
+#    Tasks files live at changes/<project>/<topic>/tasks.md, so the scan is depth 3;
+#    depth 4 is changes/archive/<project>/<topic>, which is reference, not a to-do.
+find "$plans/changes" -mindepth 3 -maxdepth 3 -name 'tasks.md' -mtime +7 2>/dev/null | while IFS= read -r f; do
   if ! grep -q '\[ \]' "$f" && grep -qi '\[x\]' "$f"; then
     echo "CLOSEOUT: ${f##*/} has no open tasks and has not changed in over 7 days — verify whether it landed; if so close it out (promote the spec, delete the file, drop the README In flight line)."
   fi
