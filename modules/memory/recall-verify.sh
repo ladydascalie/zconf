@@ -24,19 +24,8 @@ for a in "$@"; do
 done
 root="${root:-$HOME/.agents/store}"
 
-# Stable repo name -> local checkout. Add entries as anchors appear.
-repo_path() {
-	case "$1" in
-		go-backend)         printf '%s' "$HOME/Code/LootLocker/go-backend" ;;
-		index)              printf '%s' "$HOME/Code/LootLocker/index" ;;
-		ll-frontend)        printf '%s' "$HOME/Code/LootLocker/ll-frontend" ;;
-		publisher-frontend) printf '%s' "$HOME/Code/LootLocker/publisher-frontend" ;;
-		php-backend)        printf '%s' "$HOME/Code/LootLocker/php-backend" ;;
-		runbooks)           printf '%s' "$HOME/Code/Personal/runbooks" ;;
-		runbooks-docs)      printf '%s' "$HOME/Code/Personal/runbooks-docs" ;;
-		*)                  printf '%s' "" ;;
-	esac
-}
+# Stable repo name -> local checkout, shared with recall-anchor.
+. "$(cd "$(dirname "$0")" && pwd)/repos.sh"
 
 attr() { printf '%s' "$1" | sed -n "s/.*[[:space:]]$2=\([^[:space:]]*\).*/\1/p"; }
 

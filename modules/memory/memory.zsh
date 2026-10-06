@@ -49,3 +49,4 @@ specs() { _recall "$HOME/.agents/store/plans" "$@"; }
 
 recall-check() { bash "$_memory_dir/recall-check.sh" "$@"; }
 recall-verify() { bash "$_memory_dir/recall-verify.sh" "$@"; }
+recall-anchor() { bash "$_memory_dir/recall-anchor.sh" "$@"; }

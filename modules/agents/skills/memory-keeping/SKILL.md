@@ -102,6 +102,10 @@ with a repo. A fact that *is* about a specific place in code may carry one, so
   a vanished symbol).
 - `at` — the date of the check, for a human reading the marker.
 
+Emit one with `recall-anchor <repo> [--path <rel>] [--symbol <ident>]`: it resolves the
+repo, checks the path/symbol at HEAD, and prints the marker — so the anchor is verified
+at write time, not guessed. `recall-anchor --list` shows the known repos.
+
 The anchor records **where a fact was checked**, not **when it became true**. The fact
 stands on its own: if the repo moves or disappears, the anchor degrades to
 "unverifiable" and the memory is kept. `recall-verify` runs inside `memory-check`; run
