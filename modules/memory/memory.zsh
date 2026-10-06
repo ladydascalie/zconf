@@ -48,3 +48,4 @@ mem() { _recall "$HOME/.agents/store/memory" "$@"; }
 specs() { _recall "$HOME/.agents/store/plans" "$@"; }
 
 recall-check() { bash "$_memory_dir/recall-check.sh" "$@"; }
+recall-verify() { bash "$_memory_dir/recall-verify.sh" "$@"; }

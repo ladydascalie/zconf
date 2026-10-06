@@ -38,6 +38,7 @@ async function computeFindings(pi: ExtensionAPI): Promise<string[]> {
 	await runCheck("pointers", out, () => checkPointers(out));
 	await runCheck("store git", out, () => checkGitClean(pi, STORE_DIR, "The store", out));
 	await runCheck("closeout", out, () => checkCloseout(out));
+	await runCheck("anchors", out, () => checkAnchors(pi, out));
 	return out;
 }
 
@@ -173,6 +174,82 @@ function checkCloseout(findings: string[]): void {
 		findings.push(
 			`changes/${name} has no open tasks and has not changed in over ${STALE_TASKS_DAYS} days — verify whether it landed; if so close it out (promote the spec, delete the file, drop the README In flight line).`,
 		);
+	}
+}
+
+const ANCHOR_RE = /<!--\s*verify\s([^>]*?)-->/g;
+
+/** Stable repo name -> local checkout. Mirrors ~/zconf/modules/memory/recall-verify.sh. */
+function repoPath(repo: string): string | undefined {
+	const home = os.homedir();
+	const map: Record<string, string> = {
+		"go-backend": path.join(home, "Code", "LootLocker", "go-backend"),
+		index: path.join(home, "Code", "LootLocker", "index"),
+		"ll-frontend": path.join(home, "Code", "LootLocker", "ll-frontend"),
+		"publisher-frontend": path.join(home, "Code", "LootLocker", "publisher-frontend"),
+		"php-backend": path.join(home, "Code", "LootLocker", "php-backend"),
+		runbooks: path.join(home, "Code", "Personal", "runbooks"),
+		"runbooks-docs": path.join(home, "Code", "Personal", "runbooks-docs"),
+	};
+	return map[repo];
+}
+
+function listMarkdown(dir: string): string[] {
+	const out: string[] = [];
+	const walk = (d: string): void => {
+		let entries: fs.Dirent[];
+		try {
+			entries = fs.readdirSync(d, { withFileTypes: true });
+		} catch {
+			return;
+		}
+		for (const e of entries) {
+			if (e.name === ".git") continue;
+			const p = path.join(d, e.name);
+			if (e.isDirectory()) walk(p);
+			else if (e.name.endsWith(".md")) out.push(p);
+		}
+	};
+	walk(dir);
+	return out;
+}
+
+function parseAttrs(s: string): Record<string, string> {
+	const out: Record<string, string> = {};
+	for (const kv of s.trim().split(/\s+/)) {
+		const i = kv.indexOf("=");
+		if (i > 0) out[kv.slice(0, i)] = kv.slice(i + 1);
+	}
+	return out;
+}
+
+/** 6. An anchored fact whose symbol or path moved is stale until re-checked. */
+async function verifyAnchor(pi: ExtensionAPI, a: Record<string, string>): Promise<string | undefined> {
+	const dir = a.repo ? repoPath(a.repo) : undefined;
+	if (!dir) return `repo ${a.repo} has no local path — unverifiable (memory kept)`;
+	if (!fs.existsSync(path.join(dir, ".git"))) return `repo ${a.repo} not checked out — unverifiable (memory kept)`;
+	const ok = async (args: string[]): Promise<boolean> =>
+		(await pi.exec("git", ["-C", dir, ...args])).code === 0;
+	if (!(await ok(["cat-file", "-e", `${a.sha}^{commit}`]))) return `commit ${a.sha} gone (rebased/gc'd)`;
+	if (a.path) {
+		if (!(await ok(["cat-file", "-e", `HEAD:${a.path}`]))) return `path ${a.path} missing at HEAD (moved/renamed)`;
+		const { stdout, code } = await pi.exec("git", ["-C", dir, "log", "--oneline", `${a.sha}..HEAD`, "--", a.path]);
+		if (code === 0 && stdout.trim().length > 0) return `path ${a.path} changed since ${a.sha}`;
+	}
+	if (a.symbol && !(await ok(["grep", "-qw", "-e", a.symbol, "HEAD"]))) return `symbol ${a.symbol} missing at HEAD (renamed?)`;
+	return undefined;
+}
+
+async function checkAnchors(pi: ExtensionAPI, findings: string[]): Promise<void> {
+	for (const file of listMarkdown(MEMORY_DIR)) {
+		const lines = (readIfFile(file) ?? "").split("\n");
+		for (let i = 0; i < lines.length; i++) {
+			for (const m of lines[i].matchAll(ANCHOR_RE)) {
+				const a = parseAttrs(m[1]);
+				const problem = await verifyAnchor(pi, a);
+				if (problem) findings.push(`${path.relative(MEMORY_DIR, file)}:${i + 1}: ${problem} [${a.repo}@${a.sha}]`);
+			}
+		}
 	}
 }
 

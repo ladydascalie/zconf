@@ -1,6 +1,6 @@
 ---
 name: memory-check
-description: Read-only hygiene checks over the shared memory store and the spec library — core size, dead manifest pointers, uncommitted stores, stale tasks files. Use after a merge or a batch of memory writes lands, when the injected core has grown, or when asked to check memory / run /memory-check.
+description: Read-only hygiene checks over the shared memory store and the spec library — core size, dead manifest pointers, uncommitted stores, stale tasks files, stale anchors. Use after a merge or a batch of memory writes lands, when the injected core has grown, or when asked to check memory / run /memory-check.
 ---
 
 # Memory check
@@ -57,6 +57,9 @@ find "$plans/changes" -mindepth 3 -maxdepth 3 -name 'tasks.md' -mtime +7 2>/dev/
     echo "CLOSEOUT: ${f##*/} has no open tasks and has not changed in over 7 days — verify whether it landed; if so close it out (promote the spec, delete the file, drop the README In flight line)."
   fi
 done
+
+# 6. Anchored facts still resolve (see memory-keeping § Anchors)
+bash "$HOME/zconf/modules/memory/recall-verify.sh"
 ```
 
 Then, if there was any finding: state what you did about it, or why you are leaving it as is.

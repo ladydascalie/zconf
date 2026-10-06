@@ -85,6 +85,28 @@ Then:
   that seems to need its own pointer line is a signal it belongs in an existing area instead.
 - If a fact feels too small to route properly, that is the signal it should not be recorded.
 
+## Anchors — proving a fact still holds
+
+Most facts need no anchor: a preference, an environment fact or a correction cannot rot
+with a repo. A fact that *is* about a specific place in code may carry one, so
+`recall-verify` can re-check it without a full read:
+
+```
+<!-- verify repo=go-backend sha=<sha> [path=<repo-relative>] [symbol=<ident>] [at=<date>] -->
+```
+
+- `repo` — a stable short name (`recall-verify` resolves it), never a path: a path
+  rots on a move, the name does not.
+- `sha` — the commit the fact was checked against (`git rev-parse HEAD` at the time).
+- `path` / `symbol` — optional; either makes the check concrete (a moved/renamed path,
+  a vanished symbol).
+- `at` — the date of the check, for a human reading the marker.
+
+The anchor records **where a fact was checked**, not **when it became true**. The fact
+stands on its own: if the repo moves or disappears, the anchor degrades to
+"unverifiable" and the memory is kept. `recall-verify` runs inside `memory-check`; run
+it by hand as `recall-verify [-v]` after a rename or a repo move.
+
 ## Chronology
 
 At the end of a substantial session — or when asked to wrap up — append to `daily/<date>.md`: what was
