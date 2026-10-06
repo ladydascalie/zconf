@@ -1,11 +1,11 @@
 ---
 name: spec-keeping
-description: Maintain the user's personal spec library at ~/openspec/plans — a project/topic folder per decision (`specs/<project>/<topic>/README.md` accepted, `changes/<project>/<topic>/` drafts/tasks/handoff); check specs before planning work, draft proposals in changes/, promote reviewed drafts into specs/, and keep specs current when work changes behavior. Use when the user mentions specs, plans, designs, decisions worth keeping, or when starting nontrivial work that may have prior decisions recorded.
+description: Maintain the user's personal spec library at ~/.agents/store/plans — a project/topic folder per decision (`specs/<project>/<topic>/README.md` accepted, `changes/<project>/<topic>/` drafts/tasks/handoff); check specs before planning work, draft proposals in changes/, promote reviewed drafts into specs/, and keep specs current when work changes behavior. Use when the user mentions specs, plans, designs, decisions worth keeping, or when starting nontrivial work that may have prior decisions recorded.
 ---
 
 # Spec keeping
 
-The user's spec library lives at `~/openspec/plans/` (plain markdown, git
+The user's spec library lives at `~/.agents/store/plans/` (plain markdown, git
 repo). Read its README.md first if unsure of conventions. Two zones:
 
 - `specs/` — accepted truth. Never write here without the user's review.
@@ -71,7 +71,7 @@ session get this wrong without this file?* If not, don't create it.
 2. Show the user the draft (path, not necessarily full paste). For a richer
    review, use the harness's review flow rather than chat:
    - **Delta:** review inline in the thread — keep the draft in the thread's
-     worktree, or attach the spec-library checkout (`~/openspec/plans`), so the
+     worktree, or attach the spec-library checkout (`~/.agents/store/plans`), so the
      user can open the markdown, select text and leave line-anchored comments
      (Comment Mode in the file pane). Comments arrive as threads you reply to
      and resolve; revise in place, and treat the sign-off as the go-ahead. If
@@ -192,7 +192,7 @@ The library is searched with `rg` — no index, no search tooling.
 - Start from `README.md`: the Index section is the manifest (one line per live
   spec, one per in-flight tasks/handoff file). Read it, then open the matching
   folder.
-- For recall across the library: `rg -i '<terms>' ~/openspec/plans`, or scope it
+- For recall across the library: `rg -i '<terms>' ~/.agents/store/plans`, or scope it
   to `specs/` or `changes/`. A topic folder makes the project/topic name a
   second retrieval key.
 - Keep every index line keyword-rich, and name the project/topic folder in it —

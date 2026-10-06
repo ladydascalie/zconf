@@ -23,8 +23,9 @@ const CORES = [
 	{ label: "~/.pi/agent/AGENTS.md", file: path.join(os.homedir(), ".pi", "agent", "AGENTS.md") },
 	{ label: "~/.config/delta/AGENTS.md", file: path.join(os.homedir(), ".config", "delta", "AGENTS.md") },
 ];
-const MEMORY_DIR = path.join(os.homedir(), ".agents", "memory");
-const PLANS_DIR = path.join(os.homedir(), "openspec", "plans");
+const STORE_DIR = path.join(os.homedir(), ".agents", "store");
+const MEMORY_DIR = path.join(STORE_DIR, "memory");
+const PLANS_DIR = path.join(STORE_DIR, "plans");
 const CORE_BUDGET_BYTES = 10 * 1024;
 const STALE_TASKS_DAYS = 7;
 const CHECK_ENTRY_TYPE = "memory-check";
@@ -35,8 +36,7 @@ async function computeFindings(pi: ExtensionAPI): Promise<string[]> {
 	const out: string[] = [];
 	await runCheck("core size", out, () => checkCoreSize(out));
 	await runCheck("pointers", out, () => checkPointers(out));
-	await runCheck("memory store git", out, () => checkGitClean(pi, MEMORY_DIR, "The memory store", out));
-	await runCheck("spec library git", out, () => checkGitClean(pi, PLANS_DIR, "The spec library", out));
+	await runCheck("store git", out, () => checkGitClean(pi, STORE_DIR, "The store", out));
 	await runCheck("closeout", out, () => checkCloseout(out));
 	return out;
 }

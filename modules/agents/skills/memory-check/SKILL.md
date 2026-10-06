@@ -9,14 +9,14 @@ Deterministic, local, read-only: no network, no model call. **Silent when clean*
 acting on, one line per finding, and never block anything. A check that fails to run is reported too, so
 the checker cannot rot into a silent no-op.
 
-Store root: `~/.agents/memory/` (one store, shared by every harness). The injected core is each
-harness's own `AGENTS.md` — `~/.config/delta/AGENTS.md` and `~/.pi/agent/AGENTS.md` — so the check
-walks whichever exist. Spec library: `~/openspec/plans/`.
+Store root: `~/.agents/store/` (one store, shared by every harness; facts in `memory/`, spec
+library in `plans/`). The injected core is each harness's own `AGENTS.md` —
+`~/.config/delta/AGENTS.md` and `~/.pi/agent/AGENTS.md` — so the check walks whichever exist.
 
 Run the whole block in one bash call:
 
 ```sh
-store="$HOME/.agents/memory"; plans="$HOME/openspec/plans"
+store="$HOME/.agents/store/memory"; root="$HOME/.agents/store"; plans="$HOME/.agents/store/plans"
 
 # 1 + 2. Each harness's injected core: within budget, and every pointer resolves
 for core in "$HOME/.config/delta/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"; do
@@ -43,8 +43,8 @@ grep -oE '^- (specs|changes)/[^ `.]+\.md' "$plans/README.md" 2>/dev/null | awk '
   [ -f "$plans/$rel" ] || echo "SPECS: README points at $rel, which does not exist."
 done
 
-# 4. Stores are git-clean
-for d in "$store" "$plans"; do
+# 4. Store is git-clean
+for d in "$root"; do
   out=$(git -C "$d" status --short 2>/dev/null) || { echo "GIT: $d is not a git repo (or git failed)."; continue; }
   [ -z "$out" ] || { echo "GIT: $d has uncommitted changes:"; printf '%s\n' "$out"; }
 done

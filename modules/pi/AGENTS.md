@@ -1,7 +1,7 @@
 # Global context
 
 Rules, environment and preferences that apply in every session, whatever the working directory.
-Detail lives in `~/.agents/memory/` — see § Memory store.
+Detail lives in `~/.agents/store/` — see § Memory store.
 
 ## Code structure (language-agnostic)
 - Do not abstract code unless it's required. Abstraction should flow naturally from context and implementation, not as a pre-emptive step. No speculative interfaces, layers, or indirection "for later".
@@ -52,7 +52,7 @@ Banned prefixes: Find, Fetch, One, Pick, Select, All, Create, Add, Change, Set, 
 - **Subagents/lanes must NEVER commit.** The user reviews and approves all code first. A lane delivers uncommitted changes plus a report; the parent session commits only after approval.
 - **Tool discipline**: use the strongest available primitive and never author throwaway scripts. Files → `read`; JSON → `jq`; curl queries → `-G --data-urlencode`; typed tools over parsing CLI dumps; a one-off filter stays a single inline `jq` in the same bash call.
 - The diffing skills under `~/.pi/agent/skills/` are vendor-managed symlinks into `~/.agents/skills/` — do not edit them.
-- **Specs** live in `~/openspec/plans` (`specs/` = accepted truth, `changes/` = drafts and tasks files). Use the `spec-keeping` skill for the loop, the closeout trigger, and how to find one. **Default to submitting a draft spec to diffing (`diffing_plan_submit`) rather than chat-only review** — share the plan URL and **await the verdict (`diffing_plan_await`) rather than parking**; revise under the same plan id on feedback.
+- **Specs** live in `~/.agents/store/plans` (`specs/` = accepted truth, `changes/` = drafts and tasks files). Use the `spec-keeping` skill for the loop, the closeout trigger, and how to find one. **Default to submitting a draft spec to diffing (`diffing_plan_submit`) rather than chat-only review** — share the plan URL and **await the verdict (`diffing_plan_await`) rather than parking**; revise under the same plan id on feedback.
 
 ## Workflow mechanics
 - **Handoffs default to await.** After submitting a plan or handing over a code review, block on the verdict (`diffing_plan_await` / `diffing_await_review`) instead of parking — the user's reviews are synchronous by default. Park only when the user says they are stepping away, or explicitly asks you not to block.
@@ -61,7 +61,7 @@ Banned prefixes: Find, Fetch, One, Pick, Select, All, Create, Add, Change, Set, 
 
 ## Memory store
 
-Durable facts live in `~/.agents/memory/` — one store shared with Delta, plain markdown, searched with `rg`. This file holds the
+Durable facts live in `~/.agents/store/memory/`, the facts tier of the shared store (`~/.agents/store/`, one git repo, which also holds the spec library in `plans/`); shared with Delta, plain markdown, searched with `rg`. This file holds the
 invariants and the manifest below; the detail is read on demand. Use the `memory-keeping` skill for where
 a new fact goes and how to find one.
 
@@ -71,11 +71,13 @@ a new fact goes and how to find one.
 - `REFERENCE.md` § Laravel / php-backend — `.env` failure modes (FIFO / 0600 / truncated), valkey vs redis
 - `REFERENCE.md` § apidog — **the API contract source of truth, always** (read it, never infer from handler code); wholesale-replace semantics, scenario short/long type forms, project ids
 - `PI.md` — pi-tool facts: fleet-web, bash `pkill`, diffing `plans.json` recovery, extension/session gotchas
-- `REFERENCE.md` § Personal projects — ladydascalie.github.io, Japan2027, Siralim/Steam Deck, PR-814
+- `REFERENCE.md` § Personal projects — ladydascalie.github.io, Japan2027, split82, Siralim/Steam Deck, PR-814
 - `REFERENCE.md` § Host / desktop (daemonking) — UFW no-log drops (53317=LocalSend, Syncthing), KWin Overview hot-corner GL stutter, NVIDIA pageflip stall, btrfs false-positive counter
+- `REFERENCE.md` § ll-frontend & publisher-frontend — htmx 4 trigger quoting, `knip --fix`, bundler-tsconfig CI divergence, HeadlessUI anchors, dev-server restart
+- `REFERENCE.md` § runbooks (app repo) — author-vs-`[hidden]` trap, drawer state, CI Go 1.26 vs local 1.27
 - `SCRATCHPAD.md` — open follow-ups; read it when planning work
 - `daily/<date>.md` — chronology; `rg` it for "when did we…"
-- `~/openspec/plans/README.md` — the spec index
+- `~/.agents/store/plans/README.md` — the spec index
 
 Do not add a search index or embedding service for these stores. A retrieval tool must first beat `rg` on
 a fixture of real queries before adoption.

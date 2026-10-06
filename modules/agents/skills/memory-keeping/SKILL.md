@@ -10,22 +10,23 @@ It does not hold decisions (→ `spec-keeping`) or chronology (→ `daily/`).
 
 ## Where things live
 
-There is **one store**, `~/.agents/memory/` — a single git repo, shared by every harness
-(pi, Delta, …). Only the injected core differs, because each harness reads its own
-personal `AGENTS.md`.
+There is **one store**, `~/.agents/store/` — a single git repo shared by every harness
+(pi, Delta, …), holding the **facts** tier in `memory/` (this skill) and the spec library
+in `plans/` (`spec-keeping`). Only the injected core differs, because each harness reads
+its own personal `AGENTS.md`.
 
 | Tier | Holds | File | Cost |
 |---|---|---|---|
 | Injected | invariants + the pointer manifest | the harness's own `AGENTS.md` (`~/.pi/agent/AGENTS.md` for pi, `~/.config/delta/AGENTS.md` for Delta) | every session |
-| Retrieved | pi-tool facts | `~/.agents/memory/PI.md` | on demand |
-| Retrieved | Delta-tool facts | `~/.agents/memory/DELTA.md` | on demand |
-| Retrieved | facts, gotchas, conventions | `~/.agents/memory/REFERENCE.md` | on demand |
-| Retrieved | chronology | `~/.agents/memory/daily/<date>.md` | on demand |
-| Retrieved | open follow-ups | `~/.agents/memory/SCRATCHPAD.md` | on demand |
+| Retrieved | pi-tool facts | `~/.agents/store/memory/PI.md` | on demand |
+| Retrieved | Delta-tool facts | `~/.agents/store/memory/DELTA.md` | on demand |
+| Retrieved | facts, gotchas, conventions | `~/.agents/store/memory/REFERENCE.md` | on demand |
+| Retrieved | chronology | `~/.agents/store/memory/daily/<date>.md` | on demand |
+| Retrieved | open follow-ups | `~/.agents/store/memory/SCRATCHPAD.md` | on demand |
 
 **Harness-specific facts go in the harness file** (`PI.md`, `DELTA.md`) — never in the
 shared `REFERENCE.md`, and never in the injected core. The store path is defined here,
-once; every harness's manifest points at the same `~/.agents/memory/`.
+once; every harness's manifest points at the same `~/.agents/store/memory/`.
 
 If the harness confines file tools to its worktree (Delta), read and edit these files
 through the terminal (`cat`, `sed`, heredoc) instead.
@@ -36,7 +37,7 @@ which is the difference between a file that degrades visibly and one that silent
 ## Finding things (before nontrivial work)
 
 1. The injected `AGENTS.md` carries the manifest. It names the file and the section for each area.
-2. `rg -i '<terms>' ~/.agents/memory/` — search the store (scope to one file or section when you can).
+2. `rg -i '<terms>' ~/.agents/store/memory/` — search the store (scope to one file or section when you can).
 3. Read the section. Never act on a remembered paraphrase of it.
 
 Reading the file at the moment of use is the point: **a file read on demand cannot be stale.** That is
