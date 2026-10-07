@@ -44,3 +44,36 @@ for item in $items; do
 		ln -s "$source" "$target"
 	fi
 done
+
+# Hunk's bundled skills are generated from the CLI metadata, so link (never copy) to keep
+# them aligned across upgrades (`hunk skill path`). Both roots are linked: ~/.agents/skills
+# is read by every harness, ~/.pi/agent/skills mirrors the other vendor skills there.
+local -a skill_names=(hunk-review hunk-extensions)
+local skills_dir="$HOME/.hunk/skills"
+local -a skill_roots=("$HOME/.agents/skills" "$HOME/.pi/agent/skills")
+
+for root in $skill_roots; do
+	for name in $skill_names; do
+		local source="$skills_dir/$name"
+		local target="$root/$name"
+
+		if [[ ! -e "$source" ]]; then
+			_dbg "module(hunk) ~> $source is missing, skipping $name."
+			continue
+		fi
+
+		if [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then
+			_dbg "module(hunk) ~> $target already correct, nothing to do."
+			continue
+		fi
+
+		if [[ -e "$target" && ! -L "$target" ]]; then
+			_dbg "module(hunk) ~> backing up $target to ${target}.bak"
+			mv "$target" "${target}.bak"
+		fi
+
+		mkdir -p "$root"
+		_dbg "module(hunk) ~> symlinking $source ~> $target"
+		ln -sfn "$source" "$target"
+	done
+done
