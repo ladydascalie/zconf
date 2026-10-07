@@ -7,9 +7,9 @@
 # Deliberately NOT versioned here:
 #   state.json                  runtime startup state
 #   extensions/installed/       managed by `hunk extension install`
-#   config.toml                 still loose; move it here if it should survive a rebuild
 #
-# The extension file is safe to link: Hunk reads it at startup and never rewrites it.
+# config.toml and the extension file are safe to link: Hunk reads them at startup and
+# does not rewrite them (theme/UI state lives in state.json).
 
 export PATH='/home/b/.hunk/bin':"$PATH"
 
@@ -17,6 +17,7 @@ local dir=${0:A:h}
 local hunk_dir="$HOME/.config/hunk"
 
 local -a items=(
+	config.toml
 	extensions/note-mirror.ts
 )
 
