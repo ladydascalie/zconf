@@ -1,7 +1,6 @@
 {
-  "lastChangelogVersion": "1.0.0",
+  "lastChangelogVersion": "1.0.4",
   "shellPath": "/usr/bin/zsh",
-  "theme": "catppuccin-mocha",
   "defaultProvider": "openrouter",
   "defaultModel": "deepseek/deepseek-v4.1-flash",
   "packages": [
@@ -9,10 +8,7 @@
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@juicesharp/rpiv-todo",
     "npm:@narumitw/pi-btw",
-    "npm:@sherif-fanous/pi-catppuccin",
-    "npm:pi-goal-x",
-    "npm:diffing",
-    "npm:pi-open-tui"
+    "npm:diffing"
   ],
   "subagents": {
     "agentOverrides": {
@@ -28,5 +24,8 @@
     "mermaid": "streaming"
   },
   "hideThinkingBlock": true,
-  "tuiMode": "fullscreen"
+  "tuiMode": "fullscreen",
+  "terminal": {
+    "showTerminalProgress": false
+  }
 }
