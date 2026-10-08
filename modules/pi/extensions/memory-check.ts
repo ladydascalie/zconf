@@ -112,6 +112,7 @@ function checkPointers(findings: string[]): void {
 			const section = line
 				.replace(/^.*§\s*/, "")
 				.replace(/\s+(?:—|--).*$/, "")
+				.replace(/[.,;:]+$/, "")
 				.trim();
 			const body = readIfFile(path.join(MEMORY_DIR, file));
 			if (body === undefined) {

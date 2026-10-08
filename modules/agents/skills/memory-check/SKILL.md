@@ -29,7 +29,7 @@ for core in "$HOME/.config/delta/AGENTS.md" "$HOME/.pi/agent/AGENTS.md"; do
     case "$line" in *'§'*) ;; *) continue ;; esac
     file=$(printf '%s' "$line" | sed -n 's/.*`\([A-Za-z0-9._-]*\.md\)`.*/\1/p')
     [ -n "$file" ] || continue
-    sec=$(printf '%s' "$line" | sed -n 's/.*§ *//; s/ *—.*$//p')
+    sec=$(printf '%s' "$line" | sed -n 's/.*§ *//; s/ *—.*$//; s/[.,;:]*$//; p')
     if [ ! -f "$store/$file" ]; then
       echo "POINTER: $core names $file, which does not exist in the store."
     elif [ -n "$sec" ] && ! grep -qxF "## $sec" "$store/$file"; then
