@@ -6,17 +6,25 @@ export EDITOR=vim
 
 local root_dir=$(dirname "$0")
 local preload=$root_dir/preload/_init.zsh
-local configurations=(
-	# shell configuration
-	starship/starship.zsh 	# cross shell prompt.
-	antidote/antidote.zsh 	# plugin manager.
-
-	# configure zsh itself
-	zsh/options.zsh 	# basic options.
-
+local -a configurations=(
 	# modules
 	modules/_init.zsh	# configurations for tools.
 )
+
+# Prompt, plugins and completion setup only matter in a terminal, and pi sources
+# this file for every shell command via shellCommandPrefix.
+if [[ -o interactive ]]; then
+	configurations=(
+		# shell configuration
+		starship/starship.zsh 	# cross shell prompt.
+		antidote/antidote.zsh 	# plugin manager.
+
+		# configure zsh itself
+		zsh/options.zsh 	# basic options.
+
+		"${configurations[@]}"
+	)
+fi
 
 # Ensure requisite functions are preloaded.
 source $preload
@@ -57,7 +65,8 @@ done
 
 _profile_checkpoint "init.zsh done"
 
-# warn if zconf has uncommitted changes
-if [ -n "$(git -C "$root_dir" status --porcelain 2>/dev/null)" ]; then
+# warn if zconf has uncommitted changes — interactive only, pi sources this file
+# for every shell command via shellCommandPrefix.
+if [[ -o interactive ]] && [ -n "$(git -C "$root_dir" status --porcelain 2>/dev/null)" ]; then
 	echo "\033[1;33m==>\033[0m \033[1mzconf has uncommitted changes\033[0m"
 fi

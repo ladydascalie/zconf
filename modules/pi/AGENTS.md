@@ -3,6 +3,16 @@
 Rules, environment and preferences that apply in every session, whatever the working directory.
 Detail lives in `~/.agents/store/` — see § Memory store.
 
+## Voice
+
+Applies to everything you write: chat replies, commit and PR text, docs, app strings, marketing. Full detail in `~/.agents/store/plans/specs/runbooks/voice/README.md`.
+
+- **Second person.** Address the reader as "you"; instructions are imperatives ("Mint keys…", not "Keys can be minted…").
+- **Active voice.** Name the actor — Runbooks, or you. Never an abstraction like "it" or "the system".
+- **State Y.** No "it's not X, it's Y" set-ups; the "most tools do X; we don't" contrast only when the distinction is real.
+- **Concise.** One point per paragraph; no restating; cut fluff ("that's the whole point", "it should be noted").
+- **Punch over polish.** Short, verb-led sentences.
+
 ## Code structure (language-agnostic)
 - Do not abstract code unless it's required. Abstraction should flow naturally from context and implementation, not as a pre-emptive step. No speculative interfaces, layers, or indirection "for later".
 - Where possible, use plain functions (over classes/objects/methods for their own sake).

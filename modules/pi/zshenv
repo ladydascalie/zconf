@@ -1,0 +1,6 @@
+# pi spawns one `zsh -c` per command. Aliases are expanded when that command string
+# is parsed, which happens before a shellCommandPrefix runs, so zconf has to be loaded
+# from a startup file instead. Interactive shells get the full config from .zshrc.
+if [[ ! -o interactive && $AI_AGENT == pi ]]; then
+	source ~/zconf/init.zsh
+fi
