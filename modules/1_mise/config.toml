@@ -1,6 +1,5 @@
 [tools]
 cosign = "latest"
-eza = "latest"
 gallery-dl = "latest"
 kubectl = "latest"
 mage = "latest"

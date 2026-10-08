@@ -1,7 +1,6 @@
 # check required tools are installed
 local required=(
 	starship
-	eza
 	git
 	pass
 	podman
