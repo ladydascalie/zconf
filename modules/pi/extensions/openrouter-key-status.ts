@@ -5,8 +5,8 @@ import type { ExtensionAPI, ExtensionContext } from "@earendil-works/pi-coding-a
 
 const STATUS_KEY = "openrouter-key";
 const BADGES: Record<string, string> = {
-	work: "work 🦜",
-	personal: "personal 🦆",
+	work: ">> work 🦜",
+	personal: ">> personal 🦆",
 };
 
 // pi resolves the `!cat` command once per process and caches it, so the badge is
