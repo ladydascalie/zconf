@@ -1,8 +1,24 @@
 {
-  "artifactDir": "project",
-  "agentOverrides": {
-    "reviewer": {
-      "disabled": true
-    }
-  }
+  "artifactDir": "session",
+  "globalConcurrencyLimit": 8,
+  "timeoutMs": 3600000,
+  "toolTimeoutMs": 900000,
+  "maxActiveAsyncRunsPerSession": 4,
+  "maxSubagentSpawnsPerSession": 200,
+  "forkContext": {
+    "mode": "pruned",
+    "model": "openrouter/google/gemini-2.5-flash"
+  },
+  "disabledFeatures": [
+    "watchdog",
+    "panes",
+    "lane-management",
+    "external-machines",
+    "spawn-budget-grants",
+    "usage-budgets",
+    "tool-budgets",
+    "control-overrides",
+    "preflight",
+    "agent-management"
+  ]
 }

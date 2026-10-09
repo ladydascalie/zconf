@@ -10,16 +10,6 @@
     "npm:@narumitw/pi-btw",
     "npm:diffing"
   ],
-  "subagents": {
-    "agentOverrides": {
-      "worker": {
-        "thinking": "high"
-      },
-      "scout": {
-        "thinking": "low"
-      }
-    }
-  },
   "markdown": {
     "mermaid": "streaming"
   },

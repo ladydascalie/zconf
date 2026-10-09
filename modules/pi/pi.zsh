@@ -15,6 +15,11 @@
 # settings.json is safe to link: pi persists it with an in-place writeFileSync,
 # never a rename, so the symlink survives its writes.
 
+# Subagent children are short-lived, so a long cache-retention tier is paid for
+# on every write without being used. Keep children short; the parent inherits
+# whatever PI_CACHE_RETENTION is set to.
+export PI_SUBAGENT_CACHE_RETENTION=short
+
 local dir=${0:A:h}
 local pi_dir="$HOME/.pi/agent"
 
